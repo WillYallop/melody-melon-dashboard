@@ -1,19 +1,7 @@
 
 export default {
-  /*
-  ** Nuxt rendering mode
-  ** See https://nuxtjs.org/api/configuration-mode
-  */
   mode: 'universal',
-  /*
-  ** Nuxt target
-  ** See https://nuxtjs.org/api/configuration-target
-  */
   target: 'static',
-  /*
-  ** Headers of the page
-  ** See https://nuxtjs.org/api/configuration-head
-  */
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -25,44 +13,78 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  /*
-  ** Global CSS
-  */
+  loading: { 
+    color: '#E72B51', 
+    height: '3px',
+    throttle: 0
+  },
   css: [
+
   ],
-  /*
-  ** Plugins to load before mounting the App
-  ** https://nuxtjs.org/guide/plugins
-  */
   plugins: [
+
   ],
-  /*
-  ** Auto import components
-  ** See https://nuxtjs.org/api/configuration-components
-  */
   components: true,
-  /*
-  ** Nuxt.js dev-modules
-  */
   buildModules: [
+
   ],
-  /*
-  ** Nuxt.js modules
-  */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa',
+    '@nuxtjs/auth',
+    '@nuxtjs/pwa'
   ],
-  /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
-  */
-  axios: {},
-  /*
-  ** Build configuration
-  ** See https://nuxtjs.org/api/configuration-build/
-  */
+  axios: {
+    baseURL: 'https://api.melodymelon.com/v1'
+  },  
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/user/signin', method: 'post', propertyName: 'token' },
+          user: { url: '/user', method: 'get', propertyName: 'data' },
+          logout: false
+        },
+        autoFetchUser: true
+      }
+    },
+    // Options
+    redirect: {
+      login: false,
+      logout: false,
+      callback: false, 
+      home: false
+    },
+    resetOnError: true
+  },
+  router: {
+    middleware: ['auth']
+  },
+  pwa: { 
+    workbox: {}, 
+    meta: { 
+      theme_color: '#ffffff', 
+      lang: 'en', 
+      nativeUI: true,
+      description: "Create Spotify Ad campaigns.",
+    }, 
+    icon: {},
+    manifest: { 
+      name: 'Melody Melon Campaigns', 
+      lang: 'en', 
+      display: 'standalone',
+      background_color: '#ffffff',
+      theme_color: '#ffffff'
+    } 
+  },
   build: {
+
+  },
+  env: {
+    apiBaseUrl: 'https://api.melodymelon.com/v1'
+
+  },
+  server: {     
+    port: process.env.PORT || 8000,
+    host: '0.0.0.0',  
   }
 }
