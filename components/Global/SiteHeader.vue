@@ -1,19 +1,31 @@
 <template>
     <header class="headerContainer" :class="{ 'active' : trackNavStatus }">
         <div class="headerWrapper horizontalPadding">
+            <div class="logoSearchContainer">
+                <img class="siteLogo" src="../../assets/images/logo(dark).png" alt="Melody Melon Logo">
+                <trackSearch/>
+            </div>
 
-            <button class="headerBtn toggleNavBtn" v-on:click="$store.commit('toggleNavigation'); $store.commit('specificTrackNavigationStatus', true)">+</button>
-            <button class="headerBtn toggleTrackNavBtn" v-on:click="$store.commit('toggleTrackNavigation'); $store.commit('specificNavigationStatus', false)">+</button>
+            <div class="buttonContainer">
+                <button class="headerBtn toggleNavBtn" v-on:click="$store.commit('toggleNavigation'); $store.commit('specificTrackNavigationStatus', true)"><fa class="fas" :icon="['fas', 'bars']" /></button>
+                <button class="headerBtn toggleTrackNavBtn" v-on:click="$store.commit('toggleTrackNavigation'); $store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'music']" /></button>
+            </div>
         </div>
     </header>
 </template>
 
 <script>
+// Components
+import trackSearch from '@/components/Global/HeaderTrackSearch'
+
 export default {
     data() {
         return {
 
         }
+    },
+    components: {
+        trackSearch
     },
     computed: {
         trackNavStatus() {
@@ -36,25 +48,65 @@ export default {
     left: 60px;
     right: 0;
     background-color: #FFF;
-    transition: 0.1s;
+    transition: 0.2s;
+    border-bottom: 1px solid #EEF1FC;
+    z-index: 1000;
 }
 .headerContainer.active {
     right: 400px;
 }
 
 .headerWrapper {
+    height: 100%;
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+}
+
+.logoSearchContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.siteLogo {
+    height: 40px;
+}
+
+
+.buttonContainer {
+    display: flex;
+}
+.headerBtn {
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    background-color: #F1F1F1;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.headerBtn:first-child {
+    margin-right: 10px;
+}
+.headerBtn:hover .fas {
+    color: #E72B51;
+}
+.headerBtn .fas {
+    color: #929292;
+    transition: 0.3s;
 }
 .toggleNavBtn {
     display: none;
 }
 
+
 @media only screen and (max-width: 1100px) {
     .headerContainer.active {right: 0;}
 }
 @media only screen and (max-width: 768px) {
-  .headerContainer {left: 0;}
-  .toggleNavBtn {display: flex;}
+    .headerContainer {left: 0;}
+    .toggleNavBtn {display: flex;}
 }
 </style>

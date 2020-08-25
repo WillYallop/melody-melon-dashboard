@@ -14,7 +14,7 @@ export default {
     ]
   },
   loading: { 
-    color: '#1DB954', 
+    color: '#3DA389', 
     height: '3px',
     throttle: 0
   },
@@ -31,7 +31,20 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    ['nuxt-fontawesome', {
+      component: 'fa',
+      imports: [
+        {
+          set: '@fortawesome/free-solid-svg-icons',
+          icons: ['faChevronDown', 'faChevronUp', 'faChevronRight', 'faChevronLeft', 'faSearch', 'faHeadphones', 'faCog', 'faPlus', 'faStar', 'faMoon', 'faSun', 'faAd', 'faMusic', 'faBars', 'faTimes']
+        },
+        {
+          set: '@fortawesome/free-brands-svg-icons',
+          icons: ['faSpotify']
+        }
+      ]
+    }],
   ],
   axios: {
     baseURL: 'https://api.melodymelon.com/v1'

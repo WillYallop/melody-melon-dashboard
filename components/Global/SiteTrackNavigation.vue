@@ -32,7 +32,9 @@ export default {
     bottom: 0;
     right: -400px;
     background-color: #FFF;
-    transition: right 0.1s;
+    transition: right 0.2s;
+    border-left: 1px solid #EEF1FC;
+    z-index: 1000;
 }
 .trackNavigationContainer.active {
     right: 0;
