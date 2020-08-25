@@ -14,7 +14,7 @@ export default {
     ]
   },
   loading: { 
-    color: '#E72B51', 
+    color: '#1DB954', 
     height: '3px',
     throttle: 0
   },
@@ -49,10 +49,10 @@ export default {
     },
     // Options
     redirect: {
-      login: false,
+      login: '/signin',
       logout: false,
       callback: false, 
-      home: false
+      home: '/'
     },
     resetOnError: true
   },
