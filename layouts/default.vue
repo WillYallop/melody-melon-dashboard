@@ -1,8 +1,10 @@
 <template>
   <div>
+    <!-- Logged in headers and nav -->
     <siteHeader/>
     <siteNavigation/>
-    <siteTrackNavigation :trackNavigation="trackNavigation"/>
+    <siteTrackNavigation />
+
     <Nuxt :class="{ 'active' : trackNavStatus }"/>
 
     <div class="pageOverlay" :class="{ 'active' : navStatus || !trackNavStatus }" v-on:click="$store.commit('specificTrackNavigationStatus', true); $store.commit('specificNavigationStatus', false)"></div>
@@ -91,16 +93,18 @@ img{text-indent:-9999px}
   z-index: 900;
   opacity: 0;
   transition: 0.2s;
+  pointer-events: none;
 }
 .pageOverlay.active {
   opacity: 1;
+  pointer-events: all;
 }
 
 /* Global */
 .pageContainer {
   padding: 60px 0 0 60px;
   width: 100%;
-  transition: 0.1s;
+  transition: 0.2s;
 }
 .pageContainer.active {
   padding: 60px 400px 0 60px;
@@ -117,7 +121,6 @@ img{text-indent:-9999px}
 @media only screen and (max-width: 1100px) {
   .pageContainer.active {padding: 60px 0 0 60px;}
   .horizontalPadding {padding-left: 20px; padding-right: 20px;}
-  .verticalPadding {padding-top: 20px; padding-bottom: 20px;}
 
   .pageOverlay {display: flex;}
 }

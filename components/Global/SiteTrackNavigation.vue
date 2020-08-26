@@ -1,7 +1,13 @@
 <template>
     <div class="trackNavigationContainer" :class="{ 'active' : trackNavStatus }">
         <div class="topSquare">
-
+            <h2>Track Navigation</h2>
+        </div>
+        <div v-if="authStatus">
+            <p>You are logged in</p>
+        </div>
+        <div v-else>
+            <p>You must login to see your spotify tracks.</p>
         </div>
     </div>
 </template>
@@ -14,6 +20,9 @@ export default {
         }
     },
     computed: {
+        authStatus() {
+            return this.$store.state.auth.loggedIn
+        },
         trackNavStatus() {
             return this.$store.state.trackNavigation.status
         }
@@ -43,11 +52,18 @@ export default {
     height: 60px;
     width: 100%;
     background-color: #E72B51;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.topSquare h2 {
+    color: #FFF;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 1100px) {
     .trackNavigationContainer {right: 0; top: 60px; width: 300px;}
     .trackNavigationContainer.active {right: -300px;}
-    .topSquare {display: none;}
 }
 </style>

@@ -61,12 +61,7 @@ export default {
       }
     },
     // Options
-    redirect: {
-      login: '/signin',
-      logout: false,
-      callback: false, 
-      home: '/'
-    },
+    redirect: false,
     resetOnError: true
   },
   router: {

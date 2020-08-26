@@ -2,7 +2,7 @@
     <header class="headerContainer" :class="{ 'active' : trackNavStatus }">
         <div class="headerWrapper horizontalPadding">
             <div class="logoSearchContainer">
-                <img class="siteLogo" src="../../assets/images/logo(dark).png" alt="Melody Melon Logo">
+                <img v-on:click="$router.push('/')" class="siteLogo" src="../../assets/images/logo(dark).png" alt="Melody Melon Logo">
                 <trackSearch/>
             </div>
 
