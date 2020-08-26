@@ -88,7 +88,7 @@ export default {
 
   },
   env: {
-    apiBaseUrl: 'https://api.melodymelon.com/v1'
+    API_URL: 'https://api.melodymelon.com/v1'
 
   },
   server: {     

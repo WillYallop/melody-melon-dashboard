@@ -1,5 +1,6 @@
 import trackNavigation from './modules/trackNavigation.js'
 import navigation from './modules/navigation.js'
+import newCampaign from './modules/newCampaign.js'
 
 const state = () => ({
   
@@ -15,7 +16,8 @@ const actions = {
 
 const modules = {
     trackNavigation,
-    navigation
+    navigation,
+    newCampaign
 };
 
 export default {

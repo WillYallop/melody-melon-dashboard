@@ -106,7 +106,7 @@ export default {
         signUp() {
             this.errorMessageSignUp = false
             // API call
-            axios.post(process.env.apiBaseUrl + '/user/signup', {
+            axios.post(process.env.API_URL + '/user/signup', {
                 email: this.signUpDetails.email,
                 password: this.signUpDetails.password,
                 firstName: this.signUpDetails.fName,
