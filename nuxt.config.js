@@ -22,7 +22,7 @@ export default {
 
   ],
   plugins: [
-
+    {src: "~plugins/persistedstate.js", ssr: false},
   ],
   components: true,
   buildModules: [

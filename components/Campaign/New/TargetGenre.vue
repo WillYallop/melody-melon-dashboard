@@ -53,7 +53,6 @@ export default {
 }
 .genreContainer .col {
     width: calc(50% - 5px);
-    
 }
 .colHeader {
     height: 35px;
@@ -76,7 +75,7 @@ export default {
 /* Genre Options */
 .genreOptionsCon {
     width: 100%;
-    height: 200px;
+    height: 185px;
     overflow-y: scroll;
     background-color: #F7F7F7;
     border: 1px solid #EBEBEB;
@@ -118,10 +117,16 @@ export default {
 /* Genre Selected */
 .genreSelectedCon {
     width: 100%;
-    height: 200px;
+    height: 185px;
     overflow-y: scroll;
     background-color: #F7F7F7;
     border: 1px solid #EBEBEB;
     border-radius: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .genreContainer {flex-wrap: wrap;}
+    .genreContainer .col {width: 100%;}
+    .genreContainer .col:first-child {margin-bottom: 10px;}
 }
 </style>

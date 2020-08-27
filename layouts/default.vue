@@ -127,6 +127,8 @@ img{text-indent:-9999px}
 @media only screen and (max-width: 768px) {
   .pageContainer {padding: 60px 0 0;}
   .pageContainer.active {padding: 60px 0 0;}
+
+  .verticalPadding {padding-top: 20px; padding-bottom: 20px;}
 }
 
 </style>

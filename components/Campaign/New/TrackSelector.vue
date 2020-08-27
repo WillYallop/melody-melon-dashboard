@@ -73,6 +73,7 @@ export default {
                         // Set track data
                         this.$store.commit('setTrackData', res.data)
                         this.$emit('track-data', res.data)
+                        this.getTrackDataError = 'Song added'
                     })
                     .catch((err) => {
                         if(err.response.data.error.message === 'The access token expired') {
@@ -138,5 +139,11 @@ export default {
 }
 .submitTrackBtn:hover {
     background-color: #379079;
+}
+
+@media only screen and (max-width: 600px) {
+    .inputRow {flex-wrap: wrap;}
+    .inputContainer {width: 100%;}
+    .submitTrackBtn {margin-left: 0; margin-top: 10px; padding: 10px 40px; width: 100%;}
 }
 </style>
