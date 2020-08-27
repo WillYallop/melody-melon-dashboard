@@ -8,6 +8,7 @@
                     <h4 class="rowTitleP">Add Track</h4>
                     <p class="rowBodyP">Add the track URL that you wish to promote.</p>
                     <trackSelector
+                    :trackURLOg="trackURL"
                     @track-url="setTrackURL"
                     @track-data="setTrackDate"/>
                 </div>
@@ -46,13 +47,22 @@
                     :trackURL="trackURL"
                     :trackData="trackData"/>
                 </div>
+                <div class="row">
+                    <h4 class="rowTitleP">Campaign Notes</h4>
+                    <p class="rowBodyP">Add any campaign notes you might have.</p>
+                    <campaignNotes
+                    :noteDataOg="noteData"
+                    @save-note="saveNoteData"/>
+                </div>
             </div>
             <!-- Submit row -->
             <div class="col1">
                 <div class="row">
                     <h4 class="rowTitleP">Submit Campaign</h4>
                     <p class="rowBodyP">Once you submit your campaign our team will review the track and get back to you within 1 to 2 days.</p>
-                    <button class="sendReviewBtn">Send for review</button>
+                    
+                    <button class="sendReviewBtn" v-on:click="saveCampaign">Send for review</button>
+                    <p class="campaignErrorP" v-if="campaignError">{{campaignError}}</p>
                 </div>
             </div>
         </div>
@@ -71,22 +81,17 @@ import trackBreakdown from '@/components/Campaign/New/TrackBreakdown'
 import targetGenre from '@/components/Campaign/New/TargetGenre'
 import playlistPlacementsSlider from '@/components/Campaign/New/PlaylistPlacementsSlider'
 import playlistReach from '@/components/Campaign/New/PlaylistReach'
+import campaignNotes from '@/components/Campaign/New/CampaignNotes'
 
 export default {
     data() {
         return {
-            trackURL: '',
-            trackData: {},
- 
-            
-   
-
             // Total matching playlists based on selected genres
             selectedPlaylists: [],
-
             // Playlist selected after "playlist placement slider exposure"
-            playlistsSelectedAfter: []
-            
+            playlistsSelectedAfter: [],
+            // Error
+            campaignError: false,
         }
     },
     components: {
@@ -94,7 +99,9 @@ export default {
         trackBreakdown,
         targetGenre,
         playlistPlacementsSlider,
-        playlistReach
+        playlistReach,
+        campaignNotes
+
     },
     mounted() {
         setTimeout(() => {
@@ -106,6 +113,12 @@ export default {
         campaignData() {
             return this.$store.state.newCampaign.campaignData
         },
+        trackURL() {
+            return this.$store.state.newCampaign.campaignData.trackURL
+        },
+        trackData() {
+            return this.$store.state.newCampaign.campaignData.trackData
+        },
         playlistGenres() {
             return this.$store.state.newCampaign.campaignData.playlistGenres
         },
@@ -114,6 +127,9 @@ export default {
         },
         placementPercentage() {
             return this.$store.state.newCampaign.campaignData.placementPercentage
+        },
+        noteData() {
+            return this.$store.state.newCampaign.campaignData.note
         }
     },
     methods: {
@@ -130,7 +146,6 @@ export default {
                 // call
                 axios.get(process.env.API_URL + '/playlists/genres', header)
                 .then((responce) => {
-                    console.log('hello')
                     this.$store.commit('setPlaylistGenres', responce.data)
                 })
                 .catch((err) => {
@@ -143,10 +158,19 @@ export default {
 
         // Emit functions from track selector
         setTrackURL(data) {
-            this.trackURL = data
+            this.$store.commit('setTrackURL', data)
         },
         setTrackDate(data) {
-            this.trackData = data
+            var slimmedData = {
+                image: data.album.images[1].url,
+                artists: data.artists,
+                trackName: data.name,
+                trackDurationMs: data.duration_ms
+            }
+            this.$store.commit('setTrackData', slimmedData)
+        },
+        saveNoteData(data) {
+            this.$store.commit('setNoteData', data)
         },
 
         // Emit functions from target genre
@@ -217,6 +241,47 @@ export default {
             }
             
             this.playlistsSelectedAfter = this.selectedPlaylists.slice(playlistToRemove, )
+        },
+        
+        // Completion checks
+        checkTrackURL() {
+            var rexeg = /^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/
+            if(rexeg.test(this.$store.state.newCampaign.campaignData.trackURL)) {
+                return true
+            } else {
+                return false
+            }
+        },
+        checkSelectedGenres() {
+            if(this.$store.state.newCampaign.campaignData.selectedGenres.length >= 1) {
+                return true
+            } else {
+                return false
+            }
+        },
+        checkCompletionStatus() {
+            if(this.checkTrackURL() && this.checkSelectedGenres()) {
+                return true
+            } else {
+                return false
+            }
+        },
+        // Save campaign
+        saveCampaign() {
+            if(this.checkCompletionStatus()) {
+                // Reset error
+                this.campaignError = false
+                // Check auth status
+                if(this.$auth.loggedIn) {
+                    // If logged in send data to db then clear the store
+                    
+                } else {
+                    // If not logged in, redirect to login?action=savecampaign
+                    this.$router.push('/login?savecampaign')
+                }
+            } else {
+                this.campaignError = 'Make sure you have filled in all the required sections.'
+            }
         }
 
     }
@@ -288,7 +353,10 @@ export default {
 }
 
 
-
+.campaignErrorP {
+    margin-top: 10px;
+    color: #E72B51;
+}
 
 @media only screen and (max-width: 1500px) {
     .active .col1 {width: 100%; padding-right: 0;}

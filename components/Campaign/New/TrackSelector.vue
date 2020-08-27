@@ -25,12 +25,15 @@ export default {
             getTrackDataError: false,
         }
     },
+    props: {
+        trackURLOg: String,
+
+    },
     methods: {
         checkTrackURL() {
             var rexeg = /^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/
             if(rexeg.test(this.trackUrl)) {
                 // Set track URL
-                this.$store.commit('setTrackURL', this.trackUrl)
                 this.$emit('track-url', this.trackUrl)
                 return true
             } else {
@@ -71,7 +74,6 @@ export default {
                     axios.get('https://api.spotify.com/v1/tracks/'+this.trackId, spotifyAuthHeader)
                     .then((res) => {
                         // Set track data
-                        this.$store.commit('setTrackData', res.data)
                         this.$emit('track-data', res.data)
                         this.getTrackDataError = 'Song added'
                     })
@@ -95,6 +97,11 @@ export default {
             } else {
                 this.getTrackDataError = 'Make sure you enter a valid Spotify track URL.'
             }
+        }
+    },
+    watch: {
+        trackURLOg() {
+            this.trackUrl = this.trackURLOg
         }
     }
 }

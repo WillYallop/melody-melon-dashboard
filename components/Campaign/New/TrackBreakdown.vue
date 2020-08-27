@@ -1,21 +1,11 @@
 <template>
     <div class="trackBreakdownContainer">
-        <div v-if="trackData.type === 'track'">
-            <img class="trackImg" :src="trackData.album.images[1].url" alt="Spotify Track Image">
-            <div class="textarea">
-                <p class="trackNameP">{{trackData.name}}</p>
-                <p class="artistNameP"><span :key="artist.id" v-for="artist in trackData.artists">{{artist.name}}<span v-if="trackData.artists.indexOf(artist) != trackData.artists.length - 1">, </span></span></p>
-                <p class="trackDurationP">{{millisToMinutesAndSeconds(trackData.duration_ms)}}</p>
-            </div>
+        <img class="trackImg" :src="trackData.image" alt="Spotify Track Image">
+        <div class="textarea" v-if="trackData.trackName.length > 0">
+            <p class="trackNameP" v-if="trackData.trackName.length > 0">{{trackData.trackName}}</p>
+            <p class="artistNameP" v-if="trackData.artists.length > 0"><span :key="artist.id" v-for="artist in trackData.artists">{{artist.name}}<span v-if="trackData.artists.indexOf(artist) != trackData.artists.length - 1">, </span></span></p>
+            <p class="trackDurationP" v-if="trackData.trackDurationMs > 0">{{millisToMinutesAndSeconds(trackData.trackDurationMs)}}</p>
         </div>
-        <div v-else>
-            <div class="imagePlacehold"></div>
-
-        </div>
-        
-
-    
-        
     </div>
 </template>
 
@@ -45,9 +35,6 @@ export default {
 </script>
 
 <style scoped>
-.trackBreakdownContainer {
-
-}
 .trackImg {
     border-radius: 5px;
     width: 100%;

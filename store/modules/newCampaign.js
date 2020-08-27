@@ -1,13 +1,10 @@
 const state = () => ({
-    trackURL: '',
-    trackData: {},
-
     campaignData: {
         // Track URL / URI
         trackURL: '',
         // Track Spotify data
         trackData: {
-            image: '',
+            image: 'https://static1.squarespace.com/static/5d2e2c5ef24531000113c2a4/5d392a924397f100011fa30e/5d447ee1d4e5d500016bf451/1565199109495/', 
             artists: [
 
             ],
@@ -23,7 +20,9 @@ const state = () => ({
 
         ],
         // Playlist placement percentage
-        placementPercentage: 20
+        placementPercentage: 20,
+        // Note Data
+        note: ''
     }
 
 })
@@ -31,25 +30,13 @@ const state = () => ({
 const mutations = {
     // Track URL
     setTrackURL(state, data) {
-        state.trackURL = data;
+        state.campaignData.trackURL = data;
     },
     // Track data
     setTrackData(state, data) {
-        state.songData = data;
+        state.campaignData.trackData = data;
     },
     
-    // update campaign data
-    setCampaignData(state, [key, data]) {
-        // sets track url
-        if(key === 'trackURL') {
-            state.campaignData.trackURL = data
-        }
-        // sets track data
-        if(key === 'trackData') {
-            state.campaignData.trackData = data
-        }
-    },
-
     // playlist genres mutations
     setPlaylistGenres(state, data) {
         state.campaignData.playlistGenres = data
@@ -69,11 +56,15 @@ const mutations = {
         state.campaignData.selectedGenres.splice(index, 1)
     },
 
-
     // set placement percentage
     setPlacementPercentage(state, data) {
         state.campaignData.placementPercentage = data
     },
+
+    // Set note data
+    setNoteData(state, data) {
+        state.campaignData.note = data
+    }
 }
 
 export default {
