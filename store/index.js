@@ -1,6 +1,7 @@
 import trackNavigation from './modules/trackNavigation.js'
 import navigation from './modules/navigation.js'
 import createCampaign from './modules/create-campaign'
+import editCampaign from './modules/edit-campaign'
 
 const state = () => ({
   
@@ -17,7 +18,8 @@ const actions = {
 const modules = {
     trackNavigation,
     navigation,
-    createCampaign
+    createCampaign,
+    editCampaign
 };
 
 export default {

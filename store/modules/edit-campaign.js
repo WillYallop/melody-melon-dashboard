@@ -11,53 +11,58 @@ const state = () => ({
 })
   
 const mutations = {
-    pushNewTrack(state, data) {
+    // Set campaign
+    setCampaignEdit(state, data) {
+        state.campaign = data
+    },
+    // Track
+    pushNewTrackEdit(state, data) {
         state.campaign.tracks.push(data)
     },
-    deleteSpecificTrack(state, index) {
+    deleteSpecificTrackEdit(state, index) {
         state.campaign.tracks.splice(index, 1)
     },
     // Save track url & id
-    updateSpecificTrackUrl(state, [url, id, index]) {
+    updateSpecificTrackUrlEdit(state, [url, id, index]) {
         state.campaign.tracks[index].trackURL = url
         state.campaign.tracks[index].spotifyTrackId = id
     },
-    updateSpecificTrackData(state, [data, index]) {
+    updateSpecificTrackDataEdit(state, [data, index]) {
         state.campaign.tracks[index].trackData = data
     },
-    // Genre mutations for specific tracj
-    pushPlaylistGenres(state, [data, index]) {
+    // Genre mutations for specific track
+    pushPlaylistGenresEdit(state, [data, index]) {
         state.campaign.tracks[index].genres.push(data)
     },
-    splicePlaylistGenres(state, [genre, index]) {
+    splicePlaylistGenresEdit(state, [genre, index]) {
         state.campaign.tracks[index].genres = state.campaign.tracks[index].genres.filter(a => a !== genre)
     },
     // Selected Genres mutations for specific tracj
-    pushSelectedGenres(state, [data, index]) {
+    pushSelectedGenresEdit(state, [data, index]) {
         state.campaign.tracks[index].selectedGenres.push(data)
     },
-    spliceSelectedGenres(state, [genre, index]) {
+    spliceSelectedGenresEdit(state, [genre, index]) {
         state.campaign.tracks[index].selectedGenres = state.campaign.tracks[index].selectedGenres.filter(a => a !== genre)
     },
     // set placement percentage
-    setPlacementPercentage(state, [data, index]) {
+    setPlacementPercentageEdit(state, [data, index]) {
         state.campaign.tracks[index].placementPercentage = data
     },
     // Set selected playlists
-    setSelectedPlaylists(state, [data, index]) {
+    setSelectedPlaylistsEdit(state, [data, index]) {
         state.campaign.tracks[index].selectedPlaylists = data
     },
     // Set selected playlists after slider
-    updatePlaylistsSelectedAfterSlider(state, [data, index]) {
+    updatePlaylistsSelectedAfterSliderEdit(state, [data, index]) {
         state.campaign.tracks[index].playlistsSelectedAfterSlider = data
     },
     // Set note data
-    setNoteData(state, data) {
+    setNoteDataEdit(state, data) {
         state.campaign.campaignNotes = data
     },
 
     // Reset
-    resetNewCampaignData(state) {
+    resetNewCampaignDataEdit(state) {
         state.campaign = {
             tracks: [],
             campaignNotes: ''

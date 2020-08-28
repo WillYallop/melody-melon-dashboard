@@ -67,15 +67,15 @@
                 </div>
                 <div class="btnContainer">
                     <!-- If not approved -->
-                    <div class="btnInner" v-if="!campaign.campaign_approved" v-on:click="navigateCampaign('edit')">
+                    <div class="btnInner" v-if="!campaign.campaign_approved" v-on:click="navigateCampaign('edit', campaign._id)">
                         <p>Edit</p>
                     </div>
                     <!-- If approved but still pending -->
-                    <div class="btnInner" v-if="campaign.campaign_approved && campaign.campaign_status === 'pending'" v-on:click="navigateCampaign('start')">
+                    <div class="btnInner" v-if="campaign.campaign_approved && campaign.campaign_status === 'pending'" v-on:click="navigateCampaign('start', campaign._id)">
                         <p>Start</p>
                     </div>
                     <!-- If is active or complete -->
-                    <div class="btnInner" v-if="campaign.campaign_status === 'active' || campaign.campaign_status === 'complete' || campaign.campaign_status === 'cancelled'" v-on:click="navigateCampaign('overview')">
+                    <div class="btnInner" v-if="campaign.campaign_status === 'active' || campaign.campaign_status === 'complete' || campaign.campaign_status === 'cancelled'" v-on:click="navigateCampaign('overview', campaign._id)">
                         <p>Overview</p>
                     </div>
                 </div>
@@ -122,8 +122,8 @@ export default {
                 console.log(err)
             })
         },
-        navigateCampaign(action) {
-            this.$router.push('/campaign/'+action)
+        navigateCampaign(action, id) {
+            this.$router.push('/campaign/'+action+'/'+id)
         }
     }
 }

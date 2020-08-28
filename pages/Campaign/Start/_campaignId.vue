@@ -77,7 +77,7 @@
                 <div class="col">
                     <h4 class="rowSecTitleP">Campaign Costs</h4>
                     <p class="rowSecBodyP">Campaign price will be calculated once approved.</p>
-                    <p class="costP">Not yet calculated</p>
+                    <p><span class="highlightedP">£{{generatePrice}}</span> total</p>
                 </div>
                 <div class="row">
                     <h4 class="rowSecTitleP">Campaign Notes</h4>
@@ -87,10 +87,10 @@
                     @save-note="saveNoteData"/>
                 </div>
                 <div class="row">
-                    <h4 class="rowSecTitleP">Submit Campaign</h4>
-                    <p class="rowSecBodyP">Once you submit your campaign our team will review the track and get back to you within 1 to 2 days.</p>
+                    <h4 class="rowSecTitleP">Start Campaign</h4>
+                    <p class="rowSecBodyP">Once you pay for your campaign in will start at the selected selected date.</p>
 
-                    <button class="sendReviewBtn" v-on:click="saveCampaign">Send for review</button>
+                    <button class="sendReviewBtn" v-on:click="saveCampaign">Update</button>
                     <p class="campaignErrorP" v-if="campaignError">{{campaignError}}</p>
                 </div>
             </div>
@@ -115,6 +115,7 @@ import campaignBreakdown from '@/components/Campaign/Pending/CampaignBreakdown'
 import campaignNotes from '@/components/Campaign/Pending/CampaignNotes'
 
 export default {
+    middleware: 'auth-logged-in',
     data() {
         return {
             genreList: [], // Dont edit this just copy data
@@ -134,23 +135,73 @@ export default {
 
     },
     mounted() {
-        this.getGenreList()
-
+        this.loadCampaignData()
+        
     },
     computed: {
         campaign() {
-            return this.$store.state.createCampaign.campaign
+            return this.$store.state.editCampaign.campaign
         },
         tracks() {
-            return this.$store.state.createCampaign.campaign.tracks
+            return this.$store.state.editCampaign.campaign.tracks
         },
         campaignNotes() {
-            return this.$store.state.createCampaign.campaign.campaignNotes
-        }
+            return this.$store.state.editCampaign.campaign.campaignNotes
+        },
+        generatePrice() {
+            var price = 0
+            var totalPlaylistsSelected = 0
+            var totalPlaylistFollowers = 0
+
+            for(var i = 0; i < this.tracks.length; i++) {
+                totalPlaylistsSelected = totalPlaylistsSelected + this.tracks[i].playlistsSelectedAfterSlider.length
+                for(var l = 0; l < this.tracks[i].playlistsSelectedAfterSlider.length; l++) {
+                    totalPlaylistFollowers = totalPlaylistFollowers + this.tracks[i].playlistsSelectedAfterSlider[l].followers
+                }
+            }
+            
+            // Price per playlist is £20
+            // Price per 1000 followers is £1.50
+            var playlistCost = totalPlaylistsSelected * 20;
+            var followerCost = totalPlaylistFollowers * 0.0015
+            
+            price = playlistCost + followerCost
+
+            return Math.round(price)
+        },
 
     },
     methods: {
         // mounted
+        loadCampaignData() {
+            let config = {
+                headers: {
+                    Authorization: this.$auth.getToken('local')
+                }
+            }
+            axios.get(process.env.API_URL + '/campaigns/'+ this.$route.params.campaignId, config)
+            .then((responce) => {
+                // If campaign is not approved return
+                if(responce.data.campaign_approved) {
+                    if(responce.data.campaign_status != 'pending') {
+                        this.$router.push('/')
+                    } else {
+                        var storeObj = {
+                            tracks: responce.data.campaign_tracks,
+                            campaignNotes: responce.data.campaign_notes
+                        }
+                        this.$store.commit('setCampaignEdit', storeObj)
+                        this.getGenreList()
+                    }
+                } else {
+                    this.$router.push('/')
+                }
+
+            })
+            .catch((err) => {
+
+            })
+        },
         getGenreList() {
             // Header
             let header = {
@@ -162,14 +213,13 @@ export default {
             axios.get(process.env.API_URL + '/playlists/genres', header)
             .then((responce) => {
                 this.genreList = responce.data
-                this.setFirstTrack()
             })
             .catch((err) => {
                 console.log(err)
             })  
         },
         setFirstTrack() {
-            if(this.$store.state.createCampaign.campaign.tracks.length === 0) {
+            if(this.$store.state.editCampaign.campaign.tracks.length === 0) {
                 this.addTrackToCampaign()
             }
         },
@@ -178,7 +228,7 @@ export default {
         addTrackToCampaign() {
             // Empty t
             var emptyTrackObj = {
-                campaignTrackNum: this.$store.state.createCampaign.campaign.tracks.length + 1,
+                campaignTrackNum: this.$store.state.editCampaign.campaign.tracks.length + 1,
                 spotifyTrackId: '',
                 trackURL: '',
                 trackData: {
@@ -202,15 +252,15 @@ export default {
 
                 ],
             }
-            this.$store.commit('pushNewTrack', emptyTrackObj)
+            this.$store.commit('pushNewTrackEdit', emptyTrackObj)
         },
         deleteTrackFromCampaign(index) {
-            this.$store.commit('deleteSpecificTrack', index)
+            this.$store.commit('deleteSpecificTrackEdit', index)
         },
 
         // Add Track URL component emits
         saveTrackUrl(url, id, index) {
-            this.$store.commit('updateSpecificTrackUrl', [url, id, index])
+            this.$store.commit('updateSpecificTrackUrlEdit', [url, id, index])
         },
         saveTrackData(data, index) {
             var slimmedData = {
@@ -220,16 +270,16 @@ export default {
                 trackName: data.name,
                 trackDurationMs: data.duration_ms
             }
-            this.$store.commit('updateSpecificTrackData', [slimmedData, index])
+            this.$store.commit('updateSpecificTrackDataEdit', [slimmedData, index])
         },
 
         // Add Genre Component emits
         addGenre(data, index) {
             // Remove object from playlist genres and add it to selected genre
             // remove
-            this.$store.commit('splicePlaylistGenres', [data, index])
+            this.$store.commit('splicePlaylistGenresEdit', [data, index])
             // add
-            this.$store.commit('pushSelectedGenres', [data, index])
+            this.$store.commit('pushSelectedGenresEdit', [data, index])
 
             // Load all playlists that match selected genres
             this.loadSelectedPlaylists(index)
@@ -237,9 +287,9 @@ export default {
         removeGenre(data, index) {
             // Remove object from selected genres and add it to all genre
             // remove
-            this.$store.commit('spliceSelectedGenres', [data, index])
+            this.$store.commit('spliceSelectedGenresEdit', [data, index])
             // add
-            this.$store.commit('pushPlaylistGenres', [data, index])
+            this.$store.commit('pushPlaylistGenresEdit', [data, index])
 
             // Load all playlists that match selected genres
             this.loadSelectedPlaylists(index)
@@ -247,7 +297,7 @@ export default {
 
         // Emit functions from playlist placement slider
         updatePlacementPercentage(data, index) {
-            this.$store.commit('setPlacementPercentage', [data, index])
+            this.$store.commit('setPlacementPercentageEdit', [data, index])
             // Playlist selected after "playlist placement slider exposure"
             this.generatePlaylistsSelectedAfter(index)
         },
@@ -262,11 +312,11 @@ export default {
             }
             // call
             axios.post(process.env.API_URL + '/playlists/selected-genres', {
-                genresSelected: this.$store.state.createCampaign.campaign.tracks[index].selectedGenres
+                genresSelected: this.$store.state.editCampaign.campaign.tracks[index].selectedGenres
                 
             }, header)
             .then((responce) => {
-                this.$store.commit('setSelectedPlaylists', [responce.data, index])
+                this.$store.commit('setSelectedPlaylistsEdit', [responce.data, index])
                 // Playlist selected after "playlist placement slider exposure"
                 this.generatePlaylistsSelectedAfter(index)
             })
@@ -277,8 +327,8 @@ export default {
 
         // Playlist selected after "playlist placement slider exposure" - updated on change on slider
         generatePlaylistsSelectedAfter(index) {
-            var playlistTotal = this.$store.state.createCampaign.campaign.tracks[index].selectedPlaylists.length
-            var percentageAsDecimal =  (this.$store.state.createCampaign.campaign.tracks[index].placementPercentage / 100)
+            var playlistTotal = this.$store.state.editCampaign.campaign.tracks[index].selectedPlaylists.length
+            var percentageAsDecimal =  (this.$store.state.editCampaign.campaign.tracks[index].placementPercentage / 100)
             var percent = percentageAsDecimal * playlistTotal
             // Total playlists they want to be in after dragging slider
             var result = Math.round(percent)
@@ -289,24 +339,23 @@ export default {
                 var playlistToRemove = 0
             }
 
-            var data = this.$store.state.createCampaign.campaign.tracks[index].selectedPlaylists.slice(playlistToRemove, )
+            var data = this.$store.state.editCampaign.campaign.tracks[index].selectedPlaylists.slice(playlistToRemove, )
             
             // update store value for selected playlists after slider
-            this.$store.commit('updatePlaylistsSelectedAfterSlider', [data, index])
+            this.$store.commit('updatePlaylistsSelectedAfterSliderEdit', [data, index])
         },
 
         // Notes
         saveNoteData(data) {
-            this.$store.commit('setNoteData', data)
+            this.$store.commit('setNoteDataEdit', data)
         },
-
 
         // Completion checks
         checkTrackURL() {
             var status = []
             // For each track check if genres have been selected, if they have the push true, else push false
-            for(var i = 0; i < this.$store.state.createCampaign.campaign.tracks.length; i++) {
-                if(this.$store.state.createCampaign.campaign.tracks[i].spotifyTrackId.length >= 1) {
+            for(var i = 0; i < this.$store.state.editCampaign.campaign.tracks.length; i++) {
+                if(this.$store.state.editCampaign.campaign.tracks[i].spotifyTrackId.length >= 1) {
                     status.push(true)
                 } else {
                     status.push(false)
@@ -323,8 +372,8 @@ export default {
         checkSelectedGenres() {
             var status = []
             // For each track check if genres have been selected, if they have the push true, else push false
-            for(var i = 0; i < this.$store.state.createCampaign.campaign.tracks.length; i++) {
-                if(this.$store.state.createCampaign.campaign.tracks[i].selectedGenres.length >= 1) {
+            for(var i = 0; i < this.$store.state.editCampaign.campaign.tracks.length; i++) {
+                if(this.$store.state.editCampaign.campaign.tracks[i].selectedGenres.length >= 1) {
                     status.push(true)
                 } else {
                     status.push(false)
@@ -350,38 +399,37 @@ export default {
             if(this.checkCompletionStatus()) {
                 // Reset error
                 this.campaignError = false
-                // Check auth status
-                if(this.$auth.loggedIn) {
-                    // If logged in send data to db then clear the store
-                    // Header
-                    let config = {
-                        headers: {
-                            Authorization: this.$auth.getToken('local')
-                        }
+
+                // Header
+                let config = {
+                    headers: {
+                        Authorization: this.$auth.getToken('local')
                     }
-                    axios.post(process.env.API_URL + '/campaigns/create', {
-                        tracks: this.$store.state.createCampaign.campaign.tracks,
-                        orderNotes: this.$store.state.createCampaign.campaign.campaignNotes
-                        
-                    }, config)
-                    .then((responce) => {
-                        if(responce.data.message === 'success') {
-                            this.$store.commit('resetNewCampaignData')
-                            this.$router.push('/')
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                } else {
-                    // If not logged in, redirect to login?action=savecampaign
-                    this.$router.push('/login?action=createcampaign')
                 }
+                axios.patch(process.env.API_URL + '/campaigns', {
+                    _id: this.$route.params.campaignId,
+                    tracks: this.$store.state.editCampaign.campaign.tracks,
+                    orderNotes: this.$store.state.editCampaign.campaign.campaignNotes
+                    
+                }, config)
+                .then((responce) => {
+                    if(responce.data.message === 'success') {
+                        this.$store.commit('resetNewCampaignDataEdit')
+                        this.$router.push('/')
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            
             } else {
                 this.campaignError = 'Make sure you have filled in all the required sections.'
             }
         }
 
+    },
+    beforeDestroy() {
+        this.$store.commit('resetNewCampaignDataEdit')
     }
 }
 </script>
@@ -526,6 +574,10 @@ export default {
 }
 .campaignErrorP {
     margin-top: 10px;
+    color: #E72B51;
+}
+.highlightedP {
+    font-size: 20px;
     color: #E72B51;
 }
 
