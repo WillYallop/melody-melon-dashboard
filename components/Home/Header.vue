@@ -5,8 +5,8 @@
             <p class="subheaderP">Your campaigns</p>
         </div>
         <div class="rightSide">
-            <button class="addCampaignBtn" v-on:click="$router.push('/campaign/new')">New Campaign<span class="buttonIcon"><fa class="fas" :icon="['fas', 'plus']" /></span></button>
-            <button class="addCampaignBtnMobile" v-on:click="$router.push('/campaign/new')"><fa class="fas" :icon="['fas', 'plus']" /></button>
+            <button class="addCampaignBtn" v-on:click="$router.push('/campaign/create')">New Campaign<span class="buttonIcon"><fa class="fas" :icon="['fas', 'plus']" /></span></button>
+            <button class="addCampaignBtnMobile" v-on:click="$router.push('/campaign/create')"><fa class="fas" :icon="['fas', 'plus']" /></button>
         </div>
     </div>
 </template>

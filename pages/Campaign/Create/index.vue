@@ -115,11 +115,11 @@ import campaignBreakdown from '@/components/Campaign/Create/CampaignBreakdown'
 import campaignNotes from '@/components/Campaign/Create/CampaignNotes'
 
 export default {
-    middleware: 'auth-logged-in',
     data() {
         return {
             genreList: [], // Dont edit this just copy data
-
+            // Error
+            campaignError: false,
 
         }
     },
@@ -401,6 +401,8 @@ export default {
 }
 .sectionContainer:last-child {
     border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom:0;
 }
 .sectionTitle {
     width: 100%;
@@ -414,6 +416,9 @@ export default {
     border-bottom: 1px solid #EEF1FC;
     border-radius: 10px;
     margin-bottom: 10px;
+}
+.sectionContainer .row:last-child {
+    margin-bottom: 0;
 }
 .sectionContainer .col {
     width: calc(50% - 5px);
@@ -524,5 +529,9 @@ export default {
 .campaignErrorP {
     margin-top: 10px;
     color: #E72B51;
+}
+
+@media only screen and (max-width: 600px) {
+    .sectionContainer .col {width: 100%;}
 }
 </style>

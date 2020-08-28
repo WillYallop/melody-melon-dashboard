@@ -36,11 +36,25 @@
         </div>
         <!-- Results -->
         <div class="campaignResultsContainer" v-if="campaignsArray.length > 0">
-            <div class="campaignRow" :key="campaign._id" v-for="campaign in campaignsArray">
-                <img class="campaignRowImg" :src="campaign.track_image" alt="Track Image">
+            <!-- Campaign Header -->
+            <div class="tableHeader"> 
+                <div class="imageWidth"></div>
                 <div class="dataContainer">
-                    <div class="col"><p>{{campaign.track_name}}</p></div>
-                    <div class="col"><p>{{campaign.track_artists[0].name}}</p></div>
+                    <div class="col"><p>Order ID:</p></div>
+                    <div class="col"><p>Tracks:</p></div>
+                    <div class="col"><p>Start Date:</p></div>
+                    <div class="col"><p>End Date:</p></div>
+                    <div class="col"><p>Status:</p></div>
+                </div>
+                <div class="btnContainerWidth">
+                </div>
+            </div>
+            <!-- campaign row -->
+            <div class="campaignRow" :key="campaign._id" v-for="campaign in campaignsArray">
+                <img class="campaignRowImg" :src="campaign.campaign_image" alt="Track Image">
+                <div class="dataContainer">
+                    <div class="col"><p>{{campaign.campaign_id}}</p></div>
+                    <div class="col"><p>{{campaign.campaign_tracks_total}}</p></div>
                     <div class="col"><p>Not set yet</p></div>
                     <div class="col"><p>Not set yet</p></div>
                     <div class="col">
@@ -245,5 +259,23 @@ export default {
 .btnInner p {
     color: #FFF;
     font-size: 14px;
+}
+
+/* Table header */
+.tableHeader {
+    width: 100%;
+    display: flex;
+    padding: 0 10px;
+} 
+.tableHeader p {
+    font-weight: bold;
+}
+.imageWidth {
+    width: 60px;
+    min-width: 60px;
+}
+.btnContainerWidth {
+    width: 140px;
+    min-width: 140px;
 }
 </style>

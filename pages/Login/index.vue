@@ -93,7 +93,7 @@ export default {
                     data: this.credentials 
                 }).then(() => {
                     if(this.$router.currentRoute.query.action === 'createcampaign') {
-                        this.$router.push('/campaign/new')
+                        this.$router.push('/campaign/create')
                     } else {
                         this.$router.push('/')
                     }
@@ -128,7 +128,7 @@ export default {
                 })
                 .then(() => {
                     if(this.$router.currentRoute.query.action === 'createcampaign') {
-                        this.$router.push('/campaign/new')
+                        this.$router.push('/campaign/create')
                     } else {
                         this.$router.push('/')
                     }
