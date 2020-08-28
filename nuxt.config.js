@@ -37,7 +37,7 @@ export default {
       imports: [
         {
           set: '@fortawesome/free-solid-svg-icons',
-          icons: ['faChevronDown', 'faChevronUp', 'faChevronRight', 'faChevronLeft', 'faSearch', 'faHeadphones', 'faCog', 'faPlus', 'faStar', 'faMoon', 'faSun', 'faAd', 'faMusic', 'faBars', 'faTimes']
+          icons: ['faChevronDown', 'faChevronUp', 'faChevronRight', 'faChevronLeft', 'faSearch', 'faHeadphones', 'faCog', 'faPlus', 'faStar', 'faMoon', 'faSun', 'faAd', 'faMusic', 'faBars', 'faTimes', 'faListUl', 'faQuestionCircle', 'faPlay', 'faCheckCircle', 'faTrash']
         },
         {
           set: '@fortawesome/free-brands-svg-icons',

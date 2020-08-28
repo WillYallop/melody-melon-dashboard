@@ -7,7 +7,6 @@
                 <p>max</p>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -32,6 +31,7 @@ export default {
         }
     },
     props: {
+        trackIndex: Number,
         placementPercentageOg: Number,
      
     },
@@ -46,7 +46,7 @@ export default {
     },
     watch: {
         placementPercentage() {
-            this.$emit('update-placement-percentage', this.placementPercentage)
+            this.$emit('update-placement-percentage', this.placementPercentage, this.trackIndex)
         },
         placementPercentageOg() {
             this.placementPercentage = this.placementPercentageOg

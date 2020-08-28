@@ -82,6 +82,9 @@ export default {
 
         }
     },
+    mounted() {
+
+    },
     methods: {
         signIn() {
             this.errorMessageSignIn = false
@@ -89,7 +92,11 @@ export default {
                 this.$auth.loginWith('local', { 
                     data: this.credentials 
                 }).then(() => {
-                    this.$router.push('/')
+                    if(this.$router.currentRoute.query.action === 'createcampaign') {
+                        this.$router.push('/campaign/new')
+                    } else {
+                        this.$router.push('/')
+                    }
                 })
                 .catch((err) => {
                 if(err.response.status == 401) {
@@ -120,7 +127,11 @@ export default {
                     data: this.signUpDetails 
                 })
                 .then(() => {
-                    this.$router.push('/')
+                    if(this.$router.currentRoute.query.action === 'createcampaign') {
+                        this.$router.push('/campaign/new')
+                    } else {
+                        this.$router.push('/')
+                    }
                 })
             })
             .catch((err) => {

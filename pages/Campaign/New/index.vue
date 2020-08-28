@@ -1,7 +1,10 @@
 <template>
   <div class="pageContainer">
     <div class="horizontalPadding verticalPadding">
-
+        <div class="headerTextareaContainer">
+            <h1 class="headerP">New Campaign</h1>
+            <p class="subheaderP">Create a new Spotify track promotion campaign.</p>
+        </div>
         <div class="flexContainer">
             <div class="col1">
                 <div class="row">
@@ -107,7 +110,7 @@ export default {
         setTimeout(() => {
             this.getGenreData()
         }, 1)
-
+ 
     },
     computed: {
         campaignData() {
@@ -218,6 +221,7 @@ export default {
             }, header)
             .then((responce) => {
                 this.selectedPlaylists = responce.data
+                this.$store.commit('setSelectedPlaylists', responce.data)
                 // Playlist selected after "playlist placement slider exposure"
                 this.generatePlaylistsSelectedAfter()
             })
@@ -243,6 +247,20 @@ export default {
             this.playlistsSelectedAfter = this.selectedPlaylists.slice(playlistToRemove, )
         },
         
+        // Get id
+        getTrackId() {
+            // For Spotify track URI
+            var trackURI = /^(spotify:)/
+            // For Spotify track URL
+            var trackURL = /^(https:\/\/[a-z]+\.spotify\.com\/)/
+            // Set data
+            if(trackURI.test(this.$store.state.newCampaign.campaignData.trackURL)) {
+                return this.$store.state.newCampaign.campaignData.trackURL.split('spotify:track:')[1]
+            } else if (trackURL.test(this.$store.state.newCampaign.campaignData.trackURL)) {
+                return this.$store.state.newCampaign.campaignData.trackURL.split('https://open.spotify.com/track/')[1].split('?')[0]
+            }    
+        },
+
         // Completion checks
         checkTrackURL() {
             var rexeg = /^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/
@@ -274,10 +292,36 @@ export default {
                 // Check auth status
                 if(this.$auth.loggedIn) {
                     // If logged in send data to db then clear the store
-                    
+                    // Header
+                    let config = {
+                        headers: {
+                            Authorization: this.$auth.getToken('local')
+                        }
+                    }
+                    axios.post(process.env.API_URL + '/campaigns/new', {
+                        trackURL: this.$store.state.newCampaign.campaignData.trackURL,
+                        trackId: this.getTrackId(),
+                        trackImage: this.$store.state.newCampaign.campaignData.trackData.image,
+                        trackArtist: this.$store.state.newCampaign.campaignData.trackData.artists,
+                        trackName: this.$store.state.newCampaign.campaignData.trackData.trackName,
+                        trackDurationMs: this.$store.state.newCampaign.campaignData.trackDurationMs,
+                        selectedGenres: this.$store.state.newCampaign.campaignData.selectedGenres, 
+                        placementPercentage: this.$store.state.newCampaign.campaignData.placementPercentage,
+                        orderNotes: this.$store.state.newCampaign.campaignData.note,
+                        selectedPlaylists: this.$store.state.newCampaign.campaignData.selectedPlaylists
+                    }, config)
+                    .then((responce) => {
+                        if(responce.data.message === 'success') {
+                            this.$store.commit('resetNewCampaignData')
+                            this.$router.push('/')
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
                 } else {
                     // If not logged in, redirect to login?action=savecampaign
-                    this.$router.push('/login?savecampaign')
+                    this.$router.push('/login?action=savecampaign')
                 }
             } else {
                 this.campaignError = 'Make sure you have filled in all the required sections.'
@@ -290,6 +334,18 @@ export default {
 </script>
 
 <style scoped>
+/* Header */
+.headerTextareaContainer {
+    margin-bottom: 30px;
+}
+.headerP {
+    font-size: 24px;
+}
+.subheaderP {
+    font-size: 16px;
+}
+
+/* Col - Row Container */
 .flexContainer {
     display: flex;
     flex-wrap: wrap;
@@ -351,8 +407,6 @@ export default {
 .sendReviewBtn:hover {
     background-color: #379079;
 }
-
-
 .campaignErrorP {
     margin-top: 10px;
     color: #E72B51;

@@ -5,9 +5,9 @@
                 <input class="inputStyle" type="text" placeholder="Track URL" v-model="trackUrl">
                 <fa class="fas" :icon="['fab', 'spotify']" />
             </div>
-            <button class="submitTrackBtn" v-on:click="getTrackData">Submit</button>
+            <button class="submitTrackBtn" v-on:click="getTrackData">Add</button>
         </div>
-        <p v-if="getTrackDataError">{{getTrackDataError}}</p>
+        <p class="messageP" v-if="getTrackDataError">{{getTrackDataError}}</p>
     </div>
 </template>
 
@@ -26,18 +26,14 @@ export default {
         }
     },
     props: {
-        trackURLOg: String,
+        trackIndex: Number,
+        trackUrlOg: String
 
-    },
-    mounted() {
-        this.trackUrl = this.trackURLOg
     },
     methods: {
         checkTrackURL() {
             var rexeg = /^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/
             if(rexeg.test(this.trackUrl)) {
-                // Set track URL
-                this.$emit('track-url', this.trackUrl)
                 return true
             } else {
                 return false
@@ -51,9 +47,13 @@ export default {
             // Set data
             if(trackURI.test(this.trackUrl)) {
                 this.trackId = this.trackUrl.split('spotify:track:')[1]
+                // Set track URL
+                this.$emit('track-url', this.trackUrl, this.trackId, this.trackIndex)
             } else if (trackURL.test(this.trackUrl)) {
                 this.trackId = this.trackUrl.split('https://open.spotify.com/track/')[1].split('?')[0]
-            }    
+                // Set track URL
+                this.$emit('track-url', this.trackUrl, this.trackId, this.trackIndex)
+            }
         },
         getTrackData() {
             if(this.checkTrackURL()) {
@@ -77,7 +77,7 @@ export default {
                     axios.get('https://api.spotify.com/v1/tracks/'+this.trackId, spotifyAuthHeader)
                     .then((res) => {
                         // Set track data
-                        this.$emit('track-data', res.data)
+                        this.$emit('track-data', res.data, this.trackIndex)
                         this.getTrackDataError = 'Song added'
                     })
                     .catch((err) => {
@@ -114,7 +114,6 @@ export default {
 .inputRow {
     width: 100%;
     display: flex;
-    margin-bottom: 10px;
 } 
 .inputContainer {
     width: calc(100% - 170px);
@@ -149,6 +148,9 @@ export default {
 }
 .submitTrackBtn:hover {
     background-color: #379079;
+}
+.messageP {
+    margin-top: 10px;
 }
 
 @media only screen and (max-width: 600px) {

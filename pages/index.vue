@@ -3,7 +3,7 @@
     <div class="horizontalPadding verticalPadding">
       <!-- Header -->
       <dashboardHeader/>
-
+      <campaignList/>
     </div>
   </div>
 </template>
@@ -11,6 +11,7 @@
 <script>
 // Components
 import dashboardHeader from '@/components/Home/Header'
+import campaignList from '@/components/Home/CampaignList'
 
 export default {
   middleware: 'auth-logged-in',
@@ -20,7 +21,9 @@ export default {
     }
   },
   components: {
-    dashboardHeader
+    dashboardHeader,
+    campaignList
+
   },
   methods: {
 

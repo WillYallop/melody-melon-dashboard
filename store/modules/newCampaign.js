@@ -22,7 +22,11 @@ const state = () => ({
         // Playlist placement percentage
         placementPercentage: 20,
         // Note Data
-        note: ''
+        note: '',
+        // Selected Playlists
+        selectedPlaylists: [
+
+        ]
     }
 
 })
@@ -36,7 +40,6 @@ const mutations = {
     setTrackData(state, data) {
         state.campaignData.trackData = data;
     },
-    
     // playlist genres mutations
     setPlaylistGenres(state, data) {
         state.campaignData.playlistGenres = data
@@ -47,7 +50,6 @@ const mutations = {
     splicePlaylistGenres(state, index) {
         state.campaignData.playlistGenres.splice(index, 1)
     },
-
     // Selected Genres mutations
     pushSelectedGenres(state, data) {
         state.campaignData.selectedGenres.push(data)
@@ -55,15 +57,43 @@ const mutations = {
     spliceSelectedGenres(state, index) {
         state.campaignData.selectedGenres.splice(index, 1)
     },
-
     // set placement percentage
     setPlacementPercentage(state, data) {
         state.campaignData.placementPercentage = data
     },
-
     // Set note data
     setNoteData(state, data) {
         state.campaignData.note = data
+    },
+    // Set selected playlists
+    setSelectedPlaylists(state, data) {
+        state.campaignData.selectedPlaylists = data
+    },
+
+    // Reset
+    resetNewCampaignData(state) {
+        state.campaignData = {
+            trackURL: '',
+            trackData: {
+                image: 'https://static1.squarespace.com/static/5d2e2c5ef24531000113c2a4/5d392a924397f100011fa30e/5d447ee1d4e5d500016bf451/1565199109495/', 
+                artists: [
+    
+                ],
+                trackName: '',
+                trackDurationMs: 0
+            },
+            playlistGenres: [
+    
+            ],
+            selectedGenres: [
+    
+            ],
+            placementPercentage: 20,
+            note: '',
+            selectedPlaylists: [
+    
+            ]
+        }
     }
 }
 
