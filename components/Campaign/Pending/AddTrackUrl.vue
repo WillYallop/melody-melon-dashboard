@@ -30,6 +30,9 @@ export default {
         trackUrlOg: String
 
     },
+    mounted() {
+        this.trackUrl = this.trackUrlOg
+    },
     methods: {
         checkTrackURL() {
             var rexeg = /^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/
@@ -100,11 +103,6 @@ export default {
             } else {
                 this.getTrackDataError = 'Make sure you enter a valid Spotify track URL.'
             }
-        }
-    },
-    watch: {
-        trackURLOg() {
-            this.trackUrl = this.trackURLOg
         }
     }
 }

@@ -429,7 +429,7 @@ export default {
 /* Track */
 .trackContainer {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .trackContainer:last-child {
     margin-bottom: 0;

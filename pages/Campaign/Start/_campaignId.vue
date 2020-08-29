@@ -90,7 +90,7 @@
                     <h4 class="rowSecTitleP">Start Campaign</h4>
                     <p class="rowSecBodyP">Once you pay for your campaign in will start at the selected selected date.</p>
 
-                    <button class="sendReviewBtn" v-on:click="saveCampaign">Update</button>
+                    <button class="sendReviewBtn" v-on:click="saveCampaign">Start</button>
                     <p class="campaignErrorP" v-if="campaignError">{{campaignError}}</p>
                 </div>
             </div>
@@ -406,7 +406,7 @@ export default {
                         Authorization: this.$auth.getToken('local')
                     }
                 }
-                axios.patch(process.env.API_URL + '/campaigns', {
+                axios.post(process.env.API_URL + '/campaigns/confirm', {
                     _id: this.$route.params.campaignId,
                     tracks: this.$store.state.editCampaign.campaign.tracks,
                     orderNotes: this.$store.state.editCampaign.campaign.campaignNotes
@@ -415,7 +415,7 @@ export default {
                 .then((responce) => {
                     if(responce.data.message === 'success') {
                         this.$store.commit('resetNewCampaignDataEdit')
-                        this.$router.push('/')
+                        this.$router.push('/campaign/checkout/'+ this.$route.params.campaignId)
                     }
                 })
                 .catch((err) => {

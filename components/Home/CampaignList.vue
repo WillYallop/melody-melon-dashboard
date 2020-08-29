@@ -55,11 +55,12 @@
                 <div class="dataContainer">
                     <div class="col"><p>{{campaign.campaign_id}}</p></div>
                     <div class="col"><p>{{campaign.campaign_tracks_total}}</p></div>
-                    <div class="col"><p>Not set yet</p></div>
-                    <div class="col"><p>Not set yet</p></div>
+                    <div class="col"><p v-if="campaign.start_date">{{campaign.start_date}}</p><p v-else>Not set yet</p></div>
+                    <div class="col"><p v-if="campaign.end_date">{{campaign.end_date}}</p><p v-else>Not set yet</p></div>
                     <div class="col">
                         <p v-if="campaign.campaign_status === 'pending' && !campaign.campaign_approved">Being reviewed</p>
-                        <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved">Approved</p>
+                        <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && !campaign.campaign_paid">Approved</p>
+                        <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && campaign.campaign_paid">Paid</p>
                         <p v-if="campaign.campaign_status === 'active'">Active</p>
                         <p v-if="campaign.campaign_status === 'complete'">Complete</p>
                         <p v-if="campaign.campaign_status === 'cancelled'">Cancelled</p>
@@ -71,11 +72,11 @@
                         <p>Edit</p>
                     </div>
                     <!-- If approved but still pending -->
-                    <div class="btnInner" v-if="campaign.campaign_approved && campaign.campaign_status === 'pending'" v-on:click="navigateCampaign('start', campaign._id)">
+                    <div class="btnInner" v-if="campaign.campaign_approved && campaign.campaign_status === 'pending' && !campaign.campaign_paid" v-on:click="navigateCampaign('start', campaign._id)">
                         <p>Start</p>
                     </div>
                     <!-- If is active or complete -->
-                    <div class="btnInner" v-if="campaign.campaign_status === 'active' || campaign.campaign_status === 'complete' || campaign.campaign_status === 'cancelled'" v-on:click="navigateCampaign('overview', campaign._id)">
+                    <div class="btnInner" v-if="campaign.campaign_status === 'active' || campaign.campaign_status === 'complete' || campaign.campaign_status === 'cancelled' || campaign.campaign_paid" v-on:click="navigateCampaign('overview', campaign._id)">
                         <p>Overview</p>
                     </div>
                 </div>
