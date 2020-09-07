@@ -2,9 +2,7 @@
     <div class="pageContainer" >
         <div class="horizontalPadding verticalPadding">
             <!-- Page Loaded -->
-            <div v-if="pageLoaded" class="checkoutContainer">
-                {{$route.params.campaignId}}
-
+            <div class="checkoutContainer">
                 <form @submit="purchase">
                     <!-- Inputs -->
                     <input class="StripeElement" type="text" placeholder="Email Address" v-model="email"> 
@@ -13,14 +11,9 @@
                     <!-- Message -->
                     <p v-if="paymentMessage">{{paymentMessage}}</p>
                     <!-- Button -->
-                    <button type="submit">Pay</button>
+                    <button :disabled="!pageLoaded" type="submit">Pay</button>
                 </form>
             </div>
-
-            <div v-else class="pageLoadingContainer">
-                <p>Loading...</p>
-            </div>
-
         </div>
     </div>
 </template>
@@ -46,13 +39,15 @@ export default {
         }
     },
     mounted() {
-        this.mountCardInput()
+        this.mountCard()
+        this.getCampaign()
+        
     },
     computed: {
 
     },
     methods: {
-        mountCardInput() {
+        getCampaign() {
             // axios
             let config = {
                 headers: {
@@ -63,44 +58,41 @@ export default {
                 campaignId: this.$route.params.campaignId
             }, config)
             .then((res) => {
-                
-                this.createIntentResponce = this.res.data
-
-                //Assign div stripe checkout input
-                this.stripe = Stripe(process.env.stripePublishableApiKey);
-                const elements = this.stripe.elements();
-                
-                this.card = elements.create('card', {
-                    style: {
-                        base: {
-                            iconColor: '#0E1C38',
-                            color: '#0F0F0F',
-                            fontWeight: 500,
-                            fontFamily: 'Lato',
-                            fontSize: '16px',
-                            fontSmoothing: 'antialiased',
-                            ':-webkit-autofill': {
-                                color: '#878787',
-                            },
-                            '::placeholder': {
-                                color: '#0F0F0F',
-                            },
-                        },
-                        invalid: {
-                            iconColor: '#CA1E1E',
-                            color: '#CA1E1E',
-                        },
-                    },
-                });
-                this.card.mount(this.$refs.cardElement);
-
-                this.pageLoaded = true
+                this.createIntentResponce = res.data
             })
             .catch((err) => {
                 console.log(err)
             })
-
-
+        },
+        mountCard() {
+            //Assign div stripe checkout input
+            this.stripe = Stripe(process.env.stripePublishableApiKey);
+            const elements = this.stripe.elements();
+            
+            this.card = elements.create('card', {
+                style: {
+                    base: {
+                        iconColor: '#0E1C38',
+                        color: '#0F0F0F',
+                        fontWeight: 500,
+                        fontFamily: 'Lato',
+                        fontSize: '16px',
+                        fontSmoothing: 'antialiased',
+                        ':-webkit-autofill': {
+                            color: '#878787',
+                        },
+                        '::placeholder': {
+                            color: '#0F0F0F',
+                        },
+                    },
+                    invalid: {
+                        iconColor: '#CA1E1E',
+                        color: '#CA1E1E',
+                    },
+                },
+            });
+            this.card.mount(this.$refs.cardElement);
+            this.pageLoaded = true
         },
         purchase(event) {
             event.preventDefault()
@@ -117,7 +109,7 @@ export default {
                 if (result.error) {
                     // Show error to your customer
                     this.showError(result.error.message);
-                } else {
+                } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
                     // The payment succeeded!
                     this.orderComplete(result.paymentIntent.id);
                 }

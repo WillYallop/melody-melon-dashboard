@@ -1,13 +1,20 @@
-const state = () => ({
+// Sets current date + 2 days
+var newDate = new Date(); 
+newDate.setDate(newDate.getDate() + 2);
 
+const state = () => ({
     campaign: {
         // Generate a new one for each track the user wants to promote
         tracks: [
 
         ],
-        campaignNotes: ''
+        campaignNotes: '',
+        campaignDuration: 2,
+        startDate: {
+            startDate: newDate,
+            endDate: newDate
+        }
     }
-
 })
   
 const mutations = {
@@ -60,12 +67,24 @@ const mutations = {
     setNoteDataEdit(state, data) {
         state.campaign.campaignNotes = data
     },
-
+    // Set campaign duration
+    setCampaignDurationEdit(state, data) {
+        state.campaign.campaignDuration = data
+    },
+    // Set campaign start date
+    setCampaignStartDateEdit(state, data) {
+        state.campaign.startDate = data
+    },
     // Reset
     resetNewCampaignDataEdit(state) {
         state.campaign = {
             tracks: [],
-            campaignNotes: ''
+            campaignNotes: '',
+            campaignDuration: 2,
+            startDate: {
+                startDate: newDate,
+                endDate: newDate
+            }
         }
     }
 }

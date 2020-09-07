@@ -26,6 +26,7 @@ export default {
   ],
   plugins: [
     {src: "~plugins/persistedstate.js", ssr: false},
+
   ],
   components: true,
   buildModules: [
@@ -40,7 +41,7 @@ export default {
       imports: [
         {
           set: '@fortawesome/free-solid-svg-icons',
-          icons: ['faChevronDown', 'faChevronUp', 'faChevronRight', 'faChevronLeft', 'faSearch', 'faHeadphones', 'faCog', 'faPlus', 'faStar', 'faMoon', 'faSun', 'faAd', 'faMusic', 'faBars', 'faTimes', 'faListUl', 'faQuestionCircle', 'faPlay', 'faCheckCircle', 'faTrash']
+          icons: ['faChevronDown', 'faChevronUp', 'faChevronRight', 'faChevronLeft', 'faSearch', 'faHeadphones', 'faCog', 'faPlus', 'faStar', 'faMoon', 'faSun', 'faAd', 'faMusic', 'faBars', 'faTimes', 'faListUl', 'faQuestionCircle', 'faPlay', 'faCheckCircle', 'faTrash', 'faFileInvoiceDollar']
         },
         {
           set: '@fortawesome/free-brands-svg-icons',
@@ -98,5 +99,5 @@ export default {
   server: {     
     port: process.env.PORT || 8000,
     host: '0.0.0.0',  
-  }
+  },
 }

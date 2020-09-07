@@ -5,6 +5,7 @@
         </div>
         <nav class="navBtnContainer">
             <nuxt-link to="/" class="navBtn"><fa class="fas" :icon="['fas', 'ad']" /></nuxt-link>
+            <nuxt-link to="/invoices" class="navBtn"><fa class="fas" :icon="['fas', 'file-invoice-dollar']" /></nuxt-link>
             <nuxt-link to="/songs" class="navBtn"><fa class="fas" :icon="['fas', 'headphones']" /></nuxt-link>
             <nuxt-link to="/settings" class="navBtn"><fa class="fas" :icon="['fas', 'cog']" /></nuxt-link>
         </nav>
