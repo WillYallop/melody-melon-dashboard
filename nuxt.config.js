@@ -9,6 +9,9 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
+    script: [
+      { src: 'https://js.stripe.com/v3/', defer: true }
+    ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
@@ -88,7 +91,8 @@ export default {
 
   },
   env: {
-    API_URL: 'https://api.melodymelon.com/v1'
+    API_URL: 'https://api.melodymelon.com/v1',
+    stripePublishableApiKey: 'pk_test_51HMXQQHp77tiLAJJ3LXWldxmZVeesh0wiSdWoooOU7wUVkworz4SXP8ccgKgHTlAdIA9XzeZIck8ExEaiTZYfVAM00lWGxLoGv'
 
   },
   server: {     
