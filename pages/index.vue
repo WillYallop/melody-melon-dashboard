@@ -1,10 +1,17 @@
 <template>
   <div class="pageContainer">
+
+    <!-- Header -->
+    <dashboardHeader
+    :filter="filter"
+    @filter-updated="filterUpdated"/>
+    <!-- Body Content -->
     <div class="horizontalPadding verticalPadding">
-      <!-- Header -->
-      <dashboardHeader/>
-      <campaignList/>
+      <!-- Campaign Lists -->
+      <campaignList
+      :filter="filter"/>
     </div>
+
   </div>
 </template>
 
@@ -17,6 +24,7 @@ export default {
   middleware: 'auth-logged-in',
   data() {
     return {
+      filter: 'all',
 
     }
   },
@@ -26,7 +34,9 @@ export default {
 
   },
   methods: {
-
+    filterUpdated(value) {
+      this.filter = value
+    }
   }
 }
 </script>

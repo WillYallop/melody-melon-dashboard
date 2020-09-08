@@ -1,41 +1,8 @@
 <template>
     <div class="campaignListContainer">
-        <!-- Filter -->
-        <div class="navigationBarContainer">
-            <div class="col" v-on:click="filter = 'all'; selectedPos[0] = '0'; loadCampaigns()" :class="{ 'activeCol' : filter === 'all' }">
-                <div class="textarea">
-                    <fa class="fas" :icon="['fas', 'list-ul']" />
-                    <p>All</p>
-                </div>
-            </div>
-            <div class="col" v-on:click="filter = 'pending'; selectedPos[0] = '20%'; loadCampaigns()" :class="{ 'activeCol' : filter === 'pending' }">
-                <div class="textarea">
-                    <fa class="fas" :icon="['fas', 'question-circle']" /> 
-                    <p>Pending</p>             
-                </div>
-            </div>
-            <div class="col" v-on:click="filter = 'active'; selectedPos[0] = '40%'; loadCampaigns()" :class="{ 'activeCol' : filter === 'active' }">
-                <div class="textarea">
-                    <fa class="fas" :icon="['fas', 'play']" />
-                    <p>Active</p>            
-                </div>
-            </div>
-            <div class="col" v-on:click="filter = 'complete'; selectedPos[0] = '60%'; loadCampaigns()" :class="{ 'activeCol' : filter === 'complete' }">
-                <div class="textarea">
-                    <fa class="fas" :icon="['fas', 'check-circle']" />
-                    <p>Complete</p>
-                </div>
-            </div>
-            <div class="col" v-on:click="filter = 'cancelled'; selectedPos[0] = '80%'; loadCampaigns()" :class="{ 'activeCol' : filter === 'cancelled' }">
-                <div class="textarea">
-                    <fa class="fas" :icon="['fas', 'trash']" />
-                    <p>Cancelled</p>
-                </div>
-            </div>
-            <div class="selectedOverlay" :style="{ 'left' : selectedPos[0] }"></div>
-        </div>
+
         <!-- Results -->
-        <div class="campaignResultsContainer" v-if="campaignsArray.length > 0">
+        <div class="campaignResultsContainer" v-if="campaignsArray.length > 0 && loaded">
             <!-- Campaign Header -->
             <div class="tableHeader"> 
                 <div class="imageWidth"></div>
@@ -82,16 +49,45 @@
                 </div>
             </div>
         </div>
+
+        <!-- No Results -->
+        <div v-else-if="campaignsArray.length === 0 && loaded">
+            <p>No data</p>
+        </div>
+
+        <!-- Loading -->
+        <div v-else class="skeletonContainer">
+            <div class="skeletonRow">
+                <skeletonCustomSize/>
+            </div>
+            <div class="skeletonRow">
+                <skeletonCustomSize/>
+            </div>
+            <div class="skeletonRow">
+                <skeletonCustomSize/>
+            </div>
+            <div class="skeletonRow">
+                <skeletonCustomSize/>
+            </div>
+            <div class="skeletonRow">
+                <skeletonCustomSize/>
+            </div>
+        </div>
+
     </div>
 </template>
 
 <script>
 import axios from 'axios'
 
+// Components
+import skeletonCustomSize from '@/components/Global/SkeletonCustomSize'
+
 export default {
     data() {
         return {
-            filter: 'all',
+            loaded: false,
+
             selectedPos: ['0','0'],
 
             skip: 0,
@@ -101,6 +97,13 @@ export default {
 
             country: ''
         }
+    },
+    props: {
+        filter: String
+
+    },
+    components: {
+        skeletonCustomSize
     },
     mounted() {
         this.loadCampaigns()
@@ -122,6 +125,7 @@ export default {
             }, config)
             .then((results) => {
                 this.campaignsArray = results.data
+                this.loaded = true
             })
             .catch((err) => {
                 console.log(err)
@@ -161,74 +165,19 @@ export default {
                 return mm+'/'+dd+'/'+yyyy;
             }
         }
+    },
+    watch: {
+        filter() {
+            this.loaded = false
+            this.loadCampaigns()
+        }
     }
 }
 </script>
 
 <style scoped>
-/* Page */
-.campaignListContainer {
-    margin-top: 30px;
-}
-
-/* Filter */
-.navigationBarContainer {
-    width: 100%;
-    height: 40px;
-    display: flex;
-    background-color: #FFF;
-    border: 1px solid #DADADA;
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-}
-.navigationBarContainer .col {
-    width: 25%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-.navigationBarContainer .col .textarea {
-    display: flex;
-    align-items: center;
-    z-index: 20;
-    position: relative;
-}
-
-.navigationBarContainer .col .textarea .fas {
-    font-size: 12px;
-    color: #E72B51;
-    margin-right: 5px;
-    transition: 0.3s;
-}
-.navigationBarContainer .col .textarea p {
-    font-size: 14px;
-    transition: 0.3s;
-}
-/* Active style */
-.navigationBarContainer .col.activeCol .textarea .fas {
-    color: #FFF;
-}
-.navigationBarContainer .col.activeCol .textarea p {
-    color: #FFF;
-}
-.selectedOverlay {
-    width: 20%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    background-color: #E72B51;
-    transition: left 0.3s;
-    z-index: 10;
-    pointer-events: none;
-    border-radius: 10px;
-}
-
 /* Results */
 .campaignResultsContainer {
-    margin-top: 10px;
     background-color: #FFF;
     border: 1px solid #DADADA;
     border-radius: 10px;
@@ -315,5 +264,18 @@ export default {
 .btnContainerWidth {
     width: 140px;
     min-width: 140px;
+}
+
+/* Skeleton */
+.skeletonContainer {
+    width: 100%;
+
+} 
+.skeletonRow {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 </style>

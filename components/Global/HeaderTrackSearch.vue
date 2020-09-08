@@ -38,16 +38,19 @@ export default {
 /* Desktop */
 .desktopSearchContainer {
     width: 100%;
-    padding: 0 40px;
+    padding: 0 20px 0 40px;
 }
 .searchInput {
     width: 100%;
     height: 35px;
-    background-color: #FDFDFD;
-    border: 1px solid #EEEEEE;
+    background-color: #171717;
+    border: 1px solid #3D3D3D;
     border-radius: 5px;
     padding: 0 10px;
     font-size: 16px;
+}
+.searchInput::placeholder {
+    color: #C3C3C3;
 }
 
 /* Mobile */
@@ -68,7 +71,7 @@ export default {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background-color: #F7F7F7;
+    background-color: #111111;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,10 +90,10 @@ export default {
 .mobileSearchHeader {
     width: 100%;
     height: 60px;
-    background-color: #FFF;
+    background-color: #202020;
     position: relative;
     z-index: 20;
-    border-bottom: 1px solid #DADADA;
+    border-bottom: 1px solid #101010;
     display: flex;
     align-items: center;
     pointer-events: all;
@@ -101,7 +104,7 @@ export default {
     width: 40px;
     min-width: 40px;
     border-radius: 50%;
-    background-color: #F7F7F7;
+    background-color: #111111;
     display: flex;
     justify-content: center;
     align-items: center;

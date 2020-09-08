@@ -2,7 +2,7 @@
     <header class="headerContainer" :class="{ 'active' : trackNavStatus }">
         <div class="headerWrapper horizontalPadding">
             <div class="logoSearchContainer">
-                <img v-on:click="$router.push('/')" class="siteLogo" src="../../assets/images/logo(dark).png" alt="Melody Melon Logo">
+                <img v-on:click="$router.push('/')" class="siteLogo" src="../../assets/images/logo(light).svg" alt="Melody Melon Logo">
                 <trackSearch/>
             </div>
 
@@ -47,9 +47,9 @@ export default {
     top: 0;
     left: 60px;
     right: 0;
-    background-color: #FFF;
+    background-color: #202020;
     transition: 0.2s;
-    border-bottom: 1px solid #DADADA;
+    border-bottom: 1px solid #101010;
     z-index: 1000;
 }
 .headerContainer.active {
@@ -80,7 +80,7 @@ export default {
     width: 40px;
     min-width: 40px;
     border-radius: 50%;
-    background-color: #F7F7F7;
+    background-color: #111111;
     border: none;
     cursor: pointer;
     display: flex;

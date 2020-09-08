@@ -40,10 +40,11 @@ export default {
     top: 0;
     bottom: 0;
     right: -400px;
-    background-color: #FFF;
+    background-color: #202020;
     transition: right 0.2s;
-    border-left: 1px solid #DADADA;
+    border-left: 1px solid #101010;
     z-index: 1000;
+    color: #FFF;
 }
 .trackNavigationContainer.active {
     right: 0;

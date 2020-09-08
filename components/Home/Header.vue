@@ -1,12 +1,30 @@
 <template>
     <div class="pageHeaderCon">
-        <div class="textarea">
+        <!-- Title Area Row -->
+        <div class="titleRow horizontalPadding">
             <h1 class="headerP">Campaigns</h1>
-            <p class="subheaderP">Your campaigns</p>
-        </div>
-        <div class="rightSide">
             <button class="addCampaignBtn" v-on:click="$router.push('/campaign/create')">New Campaign<span class="buttonIcon"><fa class="fas" :icon="['fas', 'plus']" /></span></button>
             <button class="addCampaignBtnMobile" v-on:click="$router.push('/campaign/create')"><fa class="fas" :icon="['fas', 'plus']" /></button>
+        </div>
+        <!-- Info Area Row -->
+        <div class="infoRow horizontalPadding">
+            <div class="dataCon">
+                <p><span class="infoTitle">USER:</span> William Yallop</p>
+            </div>
+            <div class="dataCon">
+                <p><span class="infoTitle">ROLE:</span> Artist</p>
+            </div>
+            <div class="dataCon">
+                <p><span class="infoTitle">ACTIVE CAMPAIGNS:</span> 2</p>
+            </div>
+        </div>
+        <!-- Navigation Area Row -->
+        <div class="navigationRow horizontalPadding">
+            <a class="navBtn" v-on:click="filterOpt = 'all'" :class="{ 'activeNavBtn' : filterOpt === 'all' }">All</a>
+            <a class="navBtn" v-on:click="filterOpt = 'pending'" :class="{ 'activeNavBtn' : filterOpt === 'pending' }">Pending</a>
+            <a class="navBtn" v-on:click="filterOpt = 'active'" :class="{ 'activeNavBtn' : filterOpt === 'active' }">Active</a>
+            <a class="navBtn" v-on:click="filterOpt = 'complete'" :class="{ 'activeNavBtn' : filterOpt === 'complete' }">Complete</a>
+            <a class="navBtn" v-on:click="filterOpt = 'cancelled'" :class="{ 'activeNavBtn' : filterOpt === 'cancelled' }">Cancelled</a>
         </div>
     </div>
 </template>
@@ -15,7 +33,19 @@
 export default {
     data() {
         return {
-            
+            filterOpt: 'all'
+        }
+    },
+    props: {
+        filter: String
+
+    },
+    watch: {
+        filter() {
+            this.filterOpt = this.filter
+        },
+        filterOpt() {
+            this.$emit('filter-updated', this.filterOpt)
         }
     }
 }
@@ -24,19 +54,24 @@ export default {
 <style scoped>
 .pageHeaderCon {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #FFF;
 }
-/* textarea */
+
+/* Title Row */
+.titleRow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #DADADA;
+}
 .headerP {
     font-size: 24px;
 }
-.subheaderP {
-    font-size: 16px;
-}
-/* Right side */
-.rightSide {
-
-}
+/* Desktop btn */
 .addCampaignBtn {
     height: 40px;
     color: #FFF;
@@ -63,7 +98,7 @@ export default {
 .buttonIcon .fas {
     color: #FFF;
 }
-
+/* mobile btn */
 .addCampaignBtnMobile {
     height: 40px;
     width: 40px;
@@ -79,9 +114,75 @@ export default {
     color: #FFF;
 }
 
+/* Info Row */
+.infoRow {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #DADADA;
+    padding-top: 10px;
+    padding-bottom: 10px;
+} 
+.dataCon {
+    margin-right: 20px;
+} 
+.dataCon:last-child {
+    margin-right: none;
+}
+.dataCon p {
+    font-weight: normal;
+    color: #0C0C0C;
+    font-size: 14px;
+} 
+.infoTitle {
+    font-weight: bold;
+    color: #B3B3B3;
+}
 
+/* Navigation Row */
+.navigationRow {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #DADADA;
+}
+
+.navBtn {
+    padding: 10px 0;
+    margin: 0 10px;
+    display: block;
+    position: relative;
+    font-size: 14px;
+    color: #888888;
+    font-weight: bold;
+    cursor: pointer;
+}
+.navBtn:first-child {
+    margin-left: 0;
+}
+.navBtn:last-child {
+    margin-right: 0;
+}
+.activeNavBtn {
+    color: #0C0C0C;
+}
+.activeNavBtn::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height: 2px;
+    background-color: red;
+}
+
+/* Media Queries */
 @media only screen and (max-width: 768px) {
+    /* Title Row */
     .addCampaignBtn {display: none;}
     .addCampaignBtnMobile {display: flex;}
+    /* Info Row */
+    .infoRow {flex-direction: column;}
+    /* Navigation Row */
+
 }
 </style>

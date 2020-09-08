@@ -10,7 +10,7 @@
   height: 1em;
   position: relative;
   overflow: hidden;
-  background-color: #E9E9E9;
+  background-color: #D1D1D1;
   height: 100%;
   width: 100%;
 }

@@ -74,7 +74,7 @@ export default {
   pwa: { 
     workbox: {}, 
     meta: { 
-      theme_color: '#ffffff', 
+      theme_color: '#161616', 
       lang: 'en', 
       nativeUI: true,
       description: "Create Spotify Ad campaigns.",

@@ -37,9 +37,9 @@ export default {
     top: 0;
     bottom: 0;
     left: 0;
-    background-color: #FFF;
+    background-color: #202020;
     transition: 0.2s;
-    border-right: 1px solid #DADADA;
+    border-right: 1px solid #101010;
     z-index: 1000;
 }
 .topSquare {
@@ -56,7 +56,7 @@ export default {
     font-size: 18px;
 }
 .navBtnContainer {
-    padding: 40px 0;
+    padding: 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,7 +65,7 @@ export default {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background-color: #F7F7F7;
+    background-color: #111111;
     display: flex;
     justify-content: center;
     align-items: center;

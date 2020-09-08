@@ -207,7 +207,7 @@ export default {
 
             price = Math.round( price * 100 + Number.EPSILON ) / 100
 
-            return price
+            return  Math.round(price)
         },
         campaignDuration: {
             get() {

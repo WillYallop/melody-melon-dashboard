@@ -110,24 +110,21 @@ img{text-indent:-9999px}
   padding: 60px 400px 0 60px;
 }
 .horizontalPadding {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .verticalPadding {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 @media only screen and (max-width: 1100px) {
   .pageContainer.active {padding: 60px 0 0 60px;}
-  .horizontalPadding {padding-left: 15px; padding-right: 15px;}
-
   .pageOverlay {display: flex;}
 }
 @media only screen and (max-width: 768px) {
   .pageContainer {padding: 60px 0 0;}
   .pageContainer.active {padding: 60px 0 0;}
-
 }
 
 </style>
