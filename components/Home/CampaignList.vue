@@ -7,11 +7,11 @@
             <div class="tableHeader"> 
                 <div class="imageWidth"></div>
                 <div class="dataContainer">
-                    <div class="col"><p>Order ID:</p></div>
-                    <div class="col"><p>Tracks:</p></div>
-                    <div class="col"><p>Start Date:</p></div>
-                    <div class="col"><p>End Date:</p></div>
-                    <div class="col"><p>Status:</p></div>
+                    <div class="col col1"><p>ID:</p></div>
+                    <div class="col col2"><p>Tracks:</p></div>
+                    <div class="col col3"><p>Start Date:</p></div>
+                    <div class="col col4"><p>End Date:</p></div>
+                    <div class="col col5"><p>Status:</p></div>
                 </div>
                 <div class="btnContainerWidth">
                 </div>
@@ -20,11 +20,11 @@
             <div class="campaignRow" :key="campaign._id" v-for="campaign in campaignsArray">
                 <img class="campaignRowImg" :src="campaign.campaign_image" alt="Track Image">
                 <div class="dataContainer">
-                    <div class="col"><p>{{campaign.campaign_id}}</p></div>
-                    <div class="col"><p>{{campaign.campaign_tracks_total}}</p></div>
-                    <div class="col"><p v-if="campaign.start_date">{{formatDate(campaign.start_date)}}</p><p v-else>Not set yet</p></div>
-                    <div class="col"><p v-if="campaign.end_date">{{formatDate(campaign.end_date)}}</p><p v-else>Not set yet</p></div>
-                    <div class="col">
+                    <div class="col col1"><p>{{campaign.campaign_id}}</p></div>
+                    <div class="col col2"><p>{{campaign.campaign_tracks_total}}</p></div>
+                    <div class="col col3"><p v-if="campaign.start_date">{{formatDate(campaign.start_date)}}</p><p v-else>Not set yet</p></div>
+                    <div class="col col4"><p v-if="campaign.end_date">{{formatDate(campaign.end_date)}}</p><p v-else>Not set yet</p></div>
+                    <div class="col col5">
                         <p v-if="campaign.campaign_status === 'pending' && !campaign.campaign_approved">Being reviewed</p>
                         <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && !campaign.campaign_paid">Approved</p>
                         <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && campaign.campaign_paid">Paid</p>
@@ -36,15 +36,18 @@
                 <div class="btnContainer">
                     <!-- If not approved -->
                     <div class="btnInner" v-if="!campaign.campaign_approved" v-on:click="navigateCampaign('edit', campaign._id)">
-                        <p>Edit</p>
+                        <p class="btnText">Edit</p>
+                        <fa class="btnIcon" :icon="['fas', 'pen']" />
                     </div>
                     <!-- If approved but still pending -->
                     <div class="btnInner" v-if="campaign.campaign_approved && campaign.campaign_status === 'pending' && !campaign.campaign_paid" v-on:click="navigateCampaign('start', campaign._id)">
-                        <p>Start</p>
+                        <p class="btnText">Start</p>
+                        <fa class="btnIcon" :icon="['fas', 'play']" />
                     </div>
                     <!-- If is active or complete -->
                     <div class="btnInner" v-if="campaign.campaign_status === 'active' || campaign.campaign_status === 'complete' || campaign.campaign_status === 'cancelled' || campaign.campaign_paid" v-on:click="navigateCampaign('overview', campaign._id)">
-                        <p>Overview</p>
+                        <p class="btnText">Overview</p>
+                        <fa class="btnIcon" :icon="['fas', 'search']" />
                     </div>
                 </div>
             </div>
@@ -230,7 +233,7 @@ export default {
     background-color: #3DA389;
     border-radius: 20px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.3s;
 }
 .btnContainer:hover {
     background-color: #379079;
@@ -242,9 +245,14 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.btnInner p {
+.btnText {
     color: #FFF;
     font-size: 14px;
+}
+.btnIcon {
+    display: none;
+    color: #FFF;
+    font-size: 10px;
 }
 
 /* Table header */
@@ -277,5 +285,35 @@ export default {
     margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
+}
+
+.col1 {min-width: 48px;}
+.col2 {min-width: 65px;}
+.col3 {min-width: 87px;}
+.col4 {min-width: 86px;}
+.col5 {min-width: 106px;}
+
+/* Media Queries */
+@media only screen and (max-width: 870px) {
+    .dataContainer .col {width: 25%;}
+    .col2 {display: none !important;}
+}
+@media only screen and (max-width: 715px) {
+    .dataContainer .col {width: 33.33%;}
+    .col4 {display: none !important;}
+}
+@media only screen and (max-width: 595px) {
+    .dataContainer {width: calc(100% - 120px);}
+    .btnContainer {width: 40px;}
+    .btnContainerWidth {width: 40px; min-width: 40px;}
+    .dataContainer .col {padding: 0;}
+    .btnText {display: none;}
+    .btnIcon {display: flex;}
+}
+@media only screen and (max-width: 460px) {
+    .dataContainer .col {width: auto;}
+}
+@media only screen and (max-width: 404px) {
+    .col3 {display: none !important;}
 }
 </style>
