@@ -114,7 +114,7 @@
             </div>
 
             <div v-else>
-                <p>Loading..</p>
+                <skeleton/>
             </div>
 
         </div>
@@ -126,6 +126,8 @@
 import axios from 'axios'
 
 // Components
+// Skeleton
+import skeleton from '@/components/Global/Skeleton'
 // Track Components
 import addTrackUrl from '@/components/Campaign/Pending/AddTrackUrl'
 import spotifyData from '@/components/Campaign/Pending/SpotifyData'
@@ -154,6 +156,7 @@ export default {
         }
     },
     components: {
+        skeleton,
         addTrackUrl,
         spotifyData,
         targetGenres,
@@ -738,7 +741,7 @@ input[type='radio']:checked:after {
     border: 2px solid #E72B51;
 }
 
-
+/* Media Queries */
 @media only screen and (max-width: 600px) {
     .sectionContainer .col {width: 100%;}
 }

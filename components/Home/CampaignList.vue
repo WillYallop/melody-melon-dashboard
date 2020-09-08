@@ -242,9 +242,10 @@ export default {
     background-color: #FFF;
     transition: background-color 0.3s;
     cursor: pointer;
+    border-bottom: 1px solid #EFEFEF;
 }
-.campaignRow:nth-child(even) {
-    background-color: #F8F8F8;
+.campaignRow:last-child {
+  border-bottom: none;
 }
 .campaignRow:hover {
     background-color: #F3F3F3;
@@ -302,6 +303,7 @@ export default {
     width: 100%;
     display: flex;
     padding: 0 10px;
+    border-bottom: 1px solid #EFEFEF;
 } 
 .tableHeader p {
     font-weight: bold;

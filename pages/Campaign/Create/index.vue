@@ -2,113 +2,119 @@
     <div class="pageContainer">
         <div class="horizontalPadding verticalPadding">
             
-            <!-- Track Header -->
-            <div class="sectionHeader">
-                <h2 class="sectionHeaderP">CAMPAIGN TRACKS</h2>
-                <div class="line"></div>
-            </div>
-            <!-- Track Section -->
-            <div class="sectionContainer">
-                <!-- Track v-for -->
-                <div class="trackContainer" :key="tracks.indexOf(track)" v-for="track in tracks">
-                    <!-- Track Row -->
+            <div v-if="pageLoaded">
+                <!-- Track Header -->
+                <div class="sectionHeader">
+                    <h2 class="sectionHeaderP">CAMPAIGN TRACKS</h2>
+                    <div class="line"></div>
+                </div>
+                <!-- Track Section -->
+                <div class="sectionContainer">
+                    <!-- Track v-for -->
+                    <div class="trackContainer" :key="tracks.indexOf(track)" v-for="track in tracks">
+                        <!-- Track Row -->
+                        <div class="row">
+                            <!-- Track Header -->
+                            <div class="trackHeaderCon">
+                                <h2 class="trackHeaderTitle">Track {{tracks.indexOf(track) + 1}}</h2>
+                                <div class="buttonContainer">
+                                    <button class="deleteTrack" v-if="tracks.indexOf(track) != 0" v-on:click="deleteTrackFromCampaign(tracks.indexOf(track))"><fa class="fas" :icon="['fas', 'trash']" /></button>
+                                </div>
+                            </div>
+                            <!-- Row Body -->
+                            <div class="rowBodyContainer">
+                                <!-- Get spotify data -->
+                                <div class="rowSection">
+                                    <h4 class="rowSecTitleP">Add Track URL/URI.</h4>
+                                    <p class="rowSecBodyP">Add the URL to the track you want to add to the campaign.</p>
+                                    <addTrackUrl
+                                    @track-data="saveTrackData"
+                                    @track-url="saveTrackUrl"
+                                    :trackIndex="tracks.indexOf(track)"
+                                    :trackUrlOg="track.trackURL"/>
+                                </div>
+                                <!-- Display Spotify Data -->
+                                <div class="rowSection">
+                                    <spotifyData
+                                    :trackData="track.trackData"/>
+                                </div>
+                                <!-- Set Genres -->
+                                <div class="rowSection">
+                                    <h4 class="rowSecTitleP">Target Genres</h4>
+                                    <p class="rowSecBodyP">Select the genres you wish to target.</p>
+                                    <targetGenres
+                                    @add-genre="addGenre"
+                                    @remove-genre="removeGenre"
+                                    :trackIndex="tracks.indexOf(track)"
+                                    :playlistGenres="track.genres"
+                                    :selectedGenres="track.selectedGenres"/>
+                                </div>
+                                <!-- Track Placement Slider -->
+                                <div class="rowSection">
+                                    <h4 class="rowSecTitleP">Track Placements</h4>
+                                    <p class="rowSecBodyP">Slide to the point that represents your playlist placement requirements for this track.</p>
+                                    <trackPlacementsSlider
+                                    :trackIndex="tracks.indexOf(track)"
+                                    :placementPercentageOg="track.placementPercentage"
+                                    @update-placement-percentage="updatePlacementPercentage"/>
+                                </div>
+                                <!-- Track Placement Slider -->
+                                <div class="rowSection">
+                                    <h4 class="rowSecTitleP">Track Reach</h4>
+                                    <p class="rowSecBodyP">Total playlist reach.</p>
+                                    <trackReach
+                                    :playlistsSelectedAfterSlider="track.playlistsSelectedAfterSlider"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add Track -->
+                    <div class="addTrackRow" v-on:click="addTrackToCampaign">
+                        <p>Add New Track To Campaign</p>
+                    </div>
+                </div>
+
+                <!-- Finalise Campaign Header -->
+                <div class="sectionHeader">
+                    <h2 class="sectionHeaderP">FINALISE CAMPAIGN</h2>
+                    <div class="line"></div>
+                </div>
+                <!-- Finalise Campaign Section -->
+                <div class="sectionContainer">
                     <div class="row">
-                        <!-- Track Header -->
-                        <div class="trackHeaderCon">
-                            <h2 class="trackHeaderTitle">Track {{tracks.indexOf(track) + 1}}</h2>
-                            <div class="buttonContainer">
-                                <button class="deleteTrack" v-if="tracks.indexOf(track) != 0" v-on:click="deleteTrackFromCampaign(tracks.indexOf(track))"><fa class="fas" :icon="['fas', 'trash']" /></button>
-                            </div>
-                        </div>
-                        <!-- Row Body -->
                         <div class="rowBodyContainer">
-                            <!-- Get spotify data -->
-                            <div class="rowSection">
-                                <h4 class="rowSecTitleP">Add Track URL/URI.</h4>
-                                <p class="rowSecBodyP">Add the URL to the track you want to add to the campaign.</p>
-                                <addTrackUrl
-                                @track-data="saveTrackData"
-                                @track-url="saveTrackUrl"
-                                :trackIndex="tracks.indexOf(track)"
-                                :trackUrlOg="track.trackURL"/>
-                            </div>
-                            <!-- Display Spotify Data -->
-                            <div class="rowSection">
-                                <spotifyData
-                                :trackData="track.trackData"/>
-                            </div>
-                            <!-- Set Genres -->
-                            <div class="rowSection">
-                                <h4 class="rowSecTitleP">Target Genres</h4>
-                                <p class="rowSecBodyP">Select the genres you wish to target.</p>
-                                <targetGenres
-                                @add-genre="addGenre"
-                                @remove-genre="removeGenre"
-                                :trackIndex="tracks.indexOf(track)"
-                                :playlistGenres="track.genres"
-                                :selectedGenres="track.selectedGenres"/>
-                            </div>
-                            <!-- Track Placement Slider -->
-                            <div class="rowSection">
-                                <h4 class="rowSecTitleP">Track Placements</h4>
-                                <p class="rowSecBodyP">Slide to the point that represents your playlist placement requirements for this track.</p>
-                                <trackPlacementsSlider
-                                :trackIndex="tracks.indexOf(track)"
-                                :placementPercentageOg="track.placementPercentage"
-                                @update-placement-percentage="updatePlacementPercentage"/>
-                            </div>
-                            <!-- Track Placement Slider -->
-                            <div class="rowSection">
-                                <h4 class="rowSecTitleP">Track Reach</h4>
-                                <p class="rowSecBodyP">Total playlist reach.</p>
-                                <trackReach
-                                :playlistsSelectedAfterSlider="track.playlistsSelectedAfterSlider"/>
-                            </div>
+                            <h4 class="rowSecTitleP">Campaign Notes</h4>
+                            <p class="rowSecBodyP">If you have any notes add them here.</p>
+                            <campaignNotes
+                            :noteDataOg="campaignNotes"
+                            @save-note="saveNoteData"/>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="rowSecTitleP">Campaign Breakdown</h4>
+                        <p class="rowSecBodyP">An overview of your campaign.</p>
+                        <campaignBreakdown
+                        :tracks="tracks"/>
+                    </div>
+                    <div class="col">
+                        <h4 class="rowSecTitleP">Campaign Costs</h4>
+                        <p class="rowSecBodyP">Campaign price will be calculated once approved.</p>
+                        <p class="costP">Not yet calculated</p>
+                    </div>
+                    <div class="row">
+                        <div class="rowBodyContainer">
+                            <h4 class="rowSecTitleP">Submit Campaign</h4>
+                            <p class="rowSecBodyP">Once you submit your campaign our team will review the track and get back to you within 1 to 2 days.</p>
+
+                            <button class="sendReviewBtn" v-on:click="saveCampaign">Send for review</button>
+                            <p class="campaignErrorP" v-if="campaignError">{{campaignError}}</p>
                         </div>
                     </div>
                 </div>
-                <!-- Add Track -->
-                <div class="addTrackRow" v-on:click="addTrackToCampaign">
-                    <p>Add New Track To Campaign</p>
-                </div>
             </div>
 
-            <!-- Finalise Campaign Header -->
-            <div class="sectionHeader">
-                <h2 class="sectionHeaderP">FINALISE CAMPAIGN</h2>
-                <div class="line"></div>
-            </div>
-            <!-- Finalise Campaign Section -->
-            <div class="sectionContainer">
-                <div class="row">
-                    <div class="rowBodyContainer">
-                        <h4 class="rowSecTitleP">Campaign Notes</h4>
-                        <p class="rowSecBodyP">If you have any notes add them here.</p>
-                        <campaignNotes
-                        :noteDataOg="campaignNotes"
-                        @save-note="saveNoteData"/>
-                    </div>
-                </div>
-                <div class="col">
-                    <h4 class="rowSecTitleP">Campaign Breakdown</h4>
-                    <p class="rowSecBodyP">An overview of your campaign.</p>
-                    <campaignBreakdown
-                    :tracks="tracks"/>
-                </div>
-                <div class="col">
-                    <h4 class="rowSecTitleP">Campaign Costs</h4>
-                    <p class="rowSecBodyP">Campaign price will be calculated once approved.</p>
-                    <p class="costP">Not yet calculated</p>
-                </div>
-                <div class="row">
-                    <div class="rowBodyContainer">
-                        <h4 class="rowSecTitleP">Submit Campaign</h4>
-                        <p class="rowSecBodyP">Once you submit your campaign our team will review the track and get back to you within 1 to 2 days.</p>
-
-                        <button class="sendReviewBtn" v-on:click="saveCampaign">Send for review</button>
-                        <p class="campaignErrorP" v-if="campaignError">{{campaignError}}</p>
-                    </div>
-                </div>
+            <div v-else>
+                <skeleton/>
             </div>
 
         </div>
@@ -120,6 +126,8 @@
 import axios from 'axios'
 
 // Components
+// Skeleton
+import skeleton from '@/components/Global/Skeleton'
 // Track Components
 import addTrackUrl from '@/components/Campaign/Pending/AddTrackUrl'
 import spotifyData from '@/components/Campaign/Pending/SpotifyData'
@@ -133,6 +141,8 @@ import campaignNotes from '@/components/Campaign/Pending/CampaignNotes'
 export default {
     data() {
         return {
+            pageLoaded: false,
+
             genreList: [], // Dont edit this just copy data
             // Error
             campaignError: false,
@@ -140,6 +150,7 @@ export default {
         }
     },
     components: {
+        skeleton,
         addTrackUrl,
         spotifyData,
         targetGenres,
@@ -188,6 +199,7 @@ export default {
             if(this.$store.state.createCampaign.campaign.tracks.length === 0) {
                 this.addTrackToCampaign()
             }
+            this.pageLoaded = true
         },
 
         // Creation and deletion of tracks
@@ -219,6 +231,7 @@ export default {
                 ],
             }
             this.$store.commit('pushNewTrack', emptyTrackObj)
+            this.pageLoaded = true
         },
         deleteTrackFromCampaign(index) {
             this.$store.commit('deleteSpecificTrack', index)
