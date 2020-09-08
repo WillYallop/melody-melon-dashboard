@@ -42,7 +42,7 @@ export default {
     right: -400px;
     background-color: #FFF;
     transition: right 0.2s;
-    border-left: 1px solid #EEF1FC;
+    border-left: 1px solid #DADADA;
     z-index: 1000;
 }
 .trackNavigationContainer.active {

@@ -57,7 +57,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
-  background-color: #F6F8FF;
+  background-color: #F8F8F8;
 }
 
 #app {
@@ -120,7 +120,7 @@ img{text-indent:-9999px}
 
 @media only screen and (max-width: 1100px) {
   .pageContainer.active {padding: 60px 0 0 60px;}
-  .horizontalPadding {padding-left: 20px; padding-right: 20px;}
+  .horizontalPadding {padding-left: 15px; padding-right: 15px;}
 
   .pageOverlay {display: flex;}
 }
@@ -128,7 +128,6 @@ img{text-indent:-9999px}
   .pageContainer {padding: 60px 0 0;}
   .pageContainer.active {padding: 60px 0 0;}
 
-  .verticalPadding {padding-top: 20px; padding-bottom: 20px;}
 }
 
 </style>

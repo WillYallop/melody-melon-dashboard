@@ -66,8 +66,8 @@ export default {
 }
 .genreSearchInput {
     width: 100%;
-    background-color: #F7F7F7;
-    border: 1px solid #EBEBEB;
+    background-color: #F8F8F8;
+    border: 1px solid #DADADA;
     border-radius: 5px;
     padding: 0 10px;
     font-size: 16px;
@@ -78,8 +78,8 @@ export default {
     width: 100%;
     height: 185px;
     overflow-y: scroll;
-    background-color: #F7F7F7;
-    border: 1px solid #EBEBEB;
+    background-color: #F8F8F8;
+    border: 1px solid #DADADA;
     border-radius: 5px;
 }
 .genreRow {
@@ -121,7 +121,7 @@ export default {
     height: 185px;
     overflow-y: scroll;
     background-color: #FDFDFD;
-    border: 1px solid #EBEBEB;
+    border: 1px solid #DADADA;
     border-radius: 5px;
 }
 

@@ -413,7 +413,7 @@ export default {
     text-align: center;
 } 
 .sectionHeaderP {
-    background-color: #F6F8FF;
+    background-color: #F8F8F8;
     z-index: 20;
     position: relative;
     padding: 0 20px;
@@ -422,7 +422,7 @@ export default {
 .line {
     width: 100%;
     height: 1px;
-    background-color: #DFE6FF;
+    background-color: #DADADA;
     position: absolute;
     top: 14px;
     z-index: 10;
@@ -447,9 +447,10 @@ export default {
 .sectionContainer .row {
     width: 100%;
     background-color: #FFF;
-    border-bottom: 1px solid #EEF1FC;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    border: 1px solid #DADADA;
 }
 .sectionContainer .row:last-child {
     margin-bottom: 0;
@@ -458,17 +459,17 @@ export default {
     padding: 20px;
 }
 .sectionContainer .col {
-    width: calc(50% - 5px);
+    width: calc(50% - 2.5px);
     padding: 20px;
     background-color: #FFF;
-    border-bottom: 1px solid #EEF1FC;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #DADADA;
 }
 /* Track */
 .trackContainer {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .trackContainer:last-child {
     margin-bottom: 0;
@@ -479,13 +480,12 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 50px;
-    background-color: #383838;
+    background-color: #FFF;
     padding: 0 20px;
-    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #EFEFEF;
 }
 .trackHeaderTitle {
     font-size: 18px;
-    color: #FFF;
 } 
 .buttonContainer {
     display: flex;
@@ -504,11 +504,11 @@ export default {
     font-size: 10px;
 }
 .deleteTrack:hover {
-    background-color: #CC2547;
+    background-color: #C02141;
 }
 /* Row Inner section */
 .rowSection {
-    border-bottom: 1px solid #F8F8F8;
+    border-bottom: 1px solid #EFEFEF;
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
@@ -532,7 +532,7 @@ export default {
 .addTrackRow {
     width: 100%;
     padding: 20px;
-    background-color: #3DA389;
+    background-color: #E72B51;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -541,7 +541,7 @@ export default {
     transition: 0.3s;
 }
 .addTrackRow:hover {
-    background-color: #379079;
+    background-color: #C02141;
 }
 .addTrackRow p {
     color: #FFF;

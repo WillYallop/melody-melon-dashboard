@@ -39,7 +39,7 @@ export default {
     left: 0;
     background-color: #FFF;
     transition: 0.2s;
-    border-right: 1px solid #EEF1FC;
+    border-right: 1px solid #DADADA;
     z-index: 1000;
 }
 .topSquare {
@@ -65,7 +65,7 @@ export default {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background-color: #F1F1F1;
+    background-color: #F7F7F7;
     display: flex;
     justify-content: center;
     align-items: center;

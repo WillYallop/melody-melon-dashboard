@@ -9,7 +9,7 @@
             <!-- Mobile Toggle btn -->
             <div  v-on:click="mobileSearchBar = true" class="mobileSearchToggleBtn"><fa class="fas" :icon="['fas', 'search']" /></div>
             <!-- Mobile search header -->
-            <div class="mobileSearchHeader" v-if="mobileSearchBar">
+            <div class="mobileSearchHeader horizontalPadding" v-if="mobileSearchBar">
                 <input type="text" class="searchInput" placeholder="Search track">
                 <button v-on:click="mobileSearchBar = false" class="closeMobileSearch"><fa class="fas" :icon="['fas', 'times']" /></button>
             </div>
@@ -43,8 +43,8 @@ export default {
 .searchInput {
     width: 100%;
     height: 35px;
-    background-color: #F7F7F7;
-    border: 1px solid #EBEBEB;
+    background-color: #FDFDFD;
+    border: 1px solid #EEEEEE;
     border-radius: 5px;
     padding: 0 10px;
     font-size: 16px;
@@ -63,12 +63,12 @@ export default {
 /* toggle btn */
 .mobileSearchToggleBtn {
     position: absolute;
-    right: 120px;
+    right: 115px;
     top: 10px;
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background-color: #F1F1F1;
+    background-color: #F7F7F7;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,8 +90,7 @@ export default {
     background-color: #FFF;
     position: relative;
     z-index: 20;
-    border-bottom: 1px solid #EEF1FC;
-    padding: 0 20px;
+    border-bottom: 1px solid #DADADA;
     display: flex;
     align-items: center;
     pointer-events: all;
@@ -102,7 +101,7 @@ export default {
     width: 40px;
     min-width: 40px;
     border-radius: 50%;
-    background-color: #F1F1F1;
+    background-color: #F7F7F7;
     display: flex;
     justify-content: center;
     align-items: center;

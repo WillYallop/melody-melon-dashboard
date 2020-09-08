@@ -49,7 +49,7 @@ export default {
     right: 0;
     background-color: #FFF;
     transition: 0.2s;
-    border-bottom: 1px solid #EEF1FC;
+    border-bottom: 1px solid #DADADA;
     z-index: 1000;
 }
 .headerContainer.active {
@@ -80,7 +80,7 @@ export default {
     width: 40px;
     min-width: 40px;
     border-radius: 50%;
-    background-color: #F1F1F1;
+    background-color: #F7F7F7;
     border: none;
     cursor: pointer;
     display: flex;

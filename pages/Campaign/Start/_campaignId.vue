@@ -67,12 +67,8 @@
                     <div class="col">
                         <h4 class="rowSecTitleP">Campaign Start Date</h4>
                         <p class="rowSecBodyP">Select the date you wish to start your campaign.</p>
-                        <p class="settingTitleP">Duration</p>
-                        <input type="radio" id="2weeks" class="radioInput" :value="2" v-model="campaignDuration">
-                        <label for="2weeks" class="radioInputLabel">2 Weeks</label>
-                        <input type="radio" id="4weeks" class="radioInput radioInputTwo" :value="4" v-model="campaignDuration">
-                        <label for="4weeks" class="radioInputLabel">4 Weeks</label>
-                        <p class="settingTitleP secondSetTitP">Start Date</p>
+
+                        <p class="settingTitleP">Start Date</p>
                         <dateRangePicker class="dateRange"
                             :opens="'right'"
                             :minDate="minDateRange" :maxDate="maxDateRange"
@@ -80,6 +76,12 @@
                             :autoApply="false"
                             :ranges="false"
                             v-model="dateRange"/>
+                        <p class="settingTitleP secondSetTitP">Duration</p>
+                        <input type="radio" id="2weeks" class="radioInput" :value="2" v-model="campaignDuration">
+                        <label for="2weeks" class="radioInputLabel">2 Weeks</label>
+                        <input type="radio" id="4weeks" class="radioInput radioInputTwo" :value="4" v-model="campaignDuration">
+                        <label for="4weeks" class="radioInputLabel">4 Weeks</label>
+
                     </div>
                     <div class="col">
                         <h4 class="rowSecTitleP">Campaign Notes</h4>
@@ -523,7 +525,7 @@ export default {
     text-align: center;
 } 
 .sectionHeaderP {
-    background-color: #F6F8FF;
+    background-color: #F8F8F8;
     z-index: 20;
     position: relative;
     padding: 0 20px;
@@ -532,7 +534,7 @@ export default {
 .line {
     width: 100%;
     height: 1px;
-    background-color: #DFE6FF;
+    background-color: #DADADA;
     position: absolute;
     top: 14px;
     z-index: 10;
@@ -558,9 +560,10 @@ export default {
 .sectionContainer .row {
     width: 100%;
     background-color: #FFF;
-    border-bottom: 1px solid #EEF1FC;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #DADADA;
+    overflow: hidden;
 }
 .sectionContainer .row:last-child {
     margin-bottom: 0;
@@ -569,12 +572,12 @@ export default {
     padding: 20px;
 }
 .sectionContainer .col {
-    width: calc(50% - 5px);
+    width: calc(50% - 2.5px);
     padding: 20px;
     background-color: #FFF;
-    border-bottom: 1px solid #EEF1FC;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #DADADA;
 }
 /* Track */
 .trackContainer {
@@ -590,13 +593,12 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 50px;
-    background-color: #383838;
+    background-color: #FFF; 
     padding: 0 20px;
-    border-radius: 10px 10px 0 0;
-}
+    border-bottom: 1px solid #EFEFEF; 
+} 
 .trackHeaderTitle {
     font-size: 18px;
-    color: #FFF;
 } 
 .buttonContainer {
     display: flex;
@@ -615,11 +617,11 @@ export default {
     font-size: 10px;
 }
 .deleteTrack:hover {
-    background-color: #CC2547;
+    background-color: #C02141;
 }
 /* Row Inner section */
 .rowSection {
-    border-bottom: 1px solid #F8F8F8;
+    border-bottom: 1px solid #EFEFEF;
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
@@ -643,7 +645,7 @@ export default {
 .addTrackRow {
     width: 100%;
     padding: 20px;
-    background-color: #3DA389;
+    background-color: #E72B51;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -652,7 +654,7 @@ export default {
     transition: 0.3s;
 }
 .addTrackRow:hover {
-    background-color: #379079;
+    background-color: #C02141;
 }
 .addTrackRow p {
     color: #FFF;
@@ -704,6 +706,36 @@ export default {
 }
 .radioInputLabel {
     cursor: pointer;
+}
+input[type='radio'] {
+    margin-right: 5px;
+}
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: 0px;
+    left: 0px;
+    position: relative;
+    background-color: #FFF;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid #d1d3d1;
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: 0px;
+    left: 0px;
+    position: relative;
+    background-color: #E72B51;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid #E72B51;
 }
 
 

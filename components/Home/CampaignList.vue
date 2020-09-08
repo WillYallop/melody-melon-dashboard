@@ -177,7 +177,7 @@ export default {
     height: 40px;
     display: flex;
     background-color: #FFF;
-    border: 1px solid #EEF1FC;
+    border: 1px solid #DADADA;
     border-radius: 10px;
     position: relative;
     overflow: hidden;
@@ -230,7 +230,7 @@ export default {
 .campaignResultsContainer {
     margin-top: 10px;
     background-color: #FFF;
-    border: 1px solid #EEF1FC;
+    border: 1px solid #DADADA;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -244,7 +244,7 @@ export default {
     cursor: pointer;
 }
 .campaignRow:nth-child(even) {
-    background-color: #FCFCFC;
+    background-color: #F8F8F8;
 }
 .campaignRow:hover {
     background-color: #F3F3F3;
