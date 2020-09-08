@@ -55,8 +55,8 @@
                 <div class="dataContainer">
                     <div class="col"><p>{{campaign.campaign_id}}</p></div>
                     <div class="col"><p>{{campaign.campaign_tracks_total}}</p></div>
-                    <div class="col"><p v-if="campaign.start_date">{{campaign.start_date}}</p><p v-else>Not set yet</p></div>
-                    <div class="col"><p v-if="campaign.end_date">{{campaign.end_date}}</p><p v-else>Not set yet</p></div>
+                    <div class="col"><p v-if="campaign.start_date">{{formatDate(campaign.start_date)}}</p><p v-else>Not set yet</p></div>
+                    <div class="col"><p v-if="campaign.end_date">{{formatDate(campaign.end_date)}}</p><p v-else>Not set yet</p></div>
                     <div class="col">
                         <p v-if="campaign.campaign_status === 'pending' && !campaign.campaign_approved">Being reviewed</p>
                         <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && !campaign.campaign_paid">Approved</p>
@@ -97,11 +97,15 @@ export default {
             skip: 0,
             limit: 10,
 
-            campaignsArray: []
+            campaignsArray: [],
+
+            country: ''
         }
     },
     mounted() {
         this.loadCampaigns()
+        this.getCountry()
+
     },
     methods: {
         loadCampaigns() {
@@ -125,6 +129,37 @@ export default {
         },
         navigateCampaign(action, id) {
             this.$router.push('/campaign/'+action+'/'+id)
+        },
+        getCountry() {
+            axios.get("https://ipinfo.io")
+            .then((response) => {
+                this.country = response.data.country
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        },
+        formatDate(date) {
+            var today = new Date(date);
+            var dd = today.getDate();
+
+            var mm = today.getMonth()+1; 
+            var yyyy = today.getFullYear();
+            if(dd<10) 
+            {
+                dd='0'+dd;
+            } 
+
+            if(mm<10) 
+            {
+                mm='0'+mm;
+            } 
+
+            if(this.country === 'GB') {
+                return dd+'/'+mm+'/'+yyyy;
+            } else {
+                return mm+'/'+dd+'/'+yyyy;
+            }
         }
     }
 }

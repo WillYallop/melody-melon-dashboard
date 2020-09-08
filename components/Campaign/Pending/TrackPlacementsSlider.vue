@@ -86,4 +86,7 @@ export default {
     box-shadow: none;
     border: 1px solid #0E1C38;
 }
+.vue-slider-rail {
+    background-color: #F1F1F1;
+}
 </style>

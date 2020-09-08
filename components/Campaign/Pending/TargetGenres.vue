@@ -88,10 +88,10 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 5px 20px;
-    background-color: #F7F7F7;
+    background-color: #FDFDFD;
 } 
 .genreRow:nth-child(even) {
-    background-color: #F1F1F1;
+    background-color: #F8F8F8;
 }
 .genreNameP {
     font-size: 14px;
@@ -120,7 +120,7 @@ export default {
     width: 100%;
     height: 185px;
     overflow-y: scroll;
-    background-color: #F7F7F7;
+    background-color: #FDFDFD;
     border: 1px solid #EBEBEB;
     border-radius: 5px;
 }
