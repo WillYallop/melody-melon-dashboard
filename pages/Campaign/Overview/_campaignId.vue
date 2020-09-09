@@ -1,9 +1,43 @@
 <template>
     <div class="pageContainer">
-        <div class="horizontalPadding verticalPadding">
+        
+        <div v-if="pageLoaded">
+            <!-- Header -->
+            <overviewHeader
+            :title="'Campaign Overview ' + '(' + '#' + campaignData.campaign_id + ')'"
+            :tracks="campaignData.campaign_tracks.length"
+            :status="campaignData.campaign_status"
+            :campaignStarts="returnDate(campaignData.start_date)"
+            :campaignEnds="returnDate(campaignData.end_date)"
+            :pageFilter="pageFilter"
+            @filter-updated="filterUpdated"/>
+            <!-- Campaign Body -->
+            <div class="horizontalPadding verticalPadding">
 
-            <p>{{campaignData}}</p>
+                <!-- Info Section -->
+                <div class="sectionContainer" v-if="pageFilter === 'info'">
+                    <!-- Info Header -->
+                    <div class="sectionHeader">
+                        <h2 class="sectionHeaderP">CAMPAIGN INFO</h2>
+                        <div class="line"></div>
+                    </div>
 
+                    {{campaignData}}
+                </div>
+                
+                <!-- Track Section -->
+                <div class="sectionContainer" v-if="pageFilter === 'tracks'">
+                    <!-- Track Header -->
+                    <div class="sectionHeader">
+                        <h2 class="sectionHeaderP">CAMPAIGN TRACKS</h2>
+                        <div class="line"></div>
+                    </div>
+
+                    {{campaignData}}
+                </div>
+            
+            </div>
+            <!-- campaign not started -->
             <div v-if="notStarted" class="notStartedOverlay">
                 <div class="infoContainer">
                     <p>Your promotion campaign has not started yet.</p>
@@ -11,8 +45,12 @@
                     <button class="backBtn" v-on:click="$router.go(-1)">Back</button>
                 </div>
             </div>
-
         </div>
+
+        <div v-else>
+            <skeleton/>
+        </div>
+        
     </div>
 </template>
 
@@ -20,15 +58,25 @@
 // Libs
 import axios from 'axios'
 
+// Components
+// Skeleton
+import skeleton from '@/components/Global/Skeleton'
+// Campaign Components
+import overviewHeader from '@/components/Campaign/Overview/OverviewHeader'
+
 export default {
     middleware: 'auth-logged-in',
     data() {
         return {
+            pageLoaded: false,
+            pageFilter: 'info',
             campaignData: [],
             notStarted: false,
         }
     },
     components: {
+        skeleton,
+        overviewHeader
 
     },
     mounted() {
@@ -67,6 +115,7 @@ export default {
             if(currentDate < campaignStart) {
                 this.notStarted = true
             }
+            this.pageLoaded = true
         },
         returnDate(date) {
             var today = new Date(date);
@@ -99,13 +148,49 @@ export default {
             } else {
                 return mm+'/'+dd+'/'+yyyy;
             }
+        },
+        filterUpdated(value) {
+            this.pageFilter = value
         }
-
     }
 }
 </script>
 
 <style scoped>
+/* Section Header */
+.sectionHeader {
+    width: 100%;
+    position: relative;
+    margin: 0 0 20px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+} 
+.sectionHeaderP {
+    background-color: #F8F8F8;
+    z-index: 20;
+    position: relative;
+    padding: 0 20px;
+    font-size: 22px;
+} 
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: #DADADA;
+    position: absolute;
+    top: 14px;
+    z-index: 10;
+}
+
+/* Section */
+.sectionContainer {
+    width: 100%;
+    margin-bottom: 40px;
+}
+.sectionContainer:last-child {
+    margin-bottom: 0;
+}
+
 /* Not started overlay */
 .notStartedOverlay {
     position: fixed;
@@ -119,6 +204,7 @@ export default {
     transition: 0.2s;
     display: flex;
     align-items: center;
+    z-index: 100;
 }
 .infoContainer {
     background-color: #FFF;

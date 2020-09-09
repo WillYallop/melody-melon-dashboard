@@ -8,17 +8,17 @@
 
 <style scoped>
 .skeletonContainer {
-    border-radius: 10px;
-    overflow: hidden;
-    position: fixed;
-    top: 100px;
-    left: 100px;
-    right: 40px;
-    bottom: 40px;
-    transition: 0.3s;
+  border-radius: 10px;
+  overflow: hidden;
+  position: fixed;
+  top: 80px;
+  left: 80px;
+  right: 20px;
+  bottom: 20px;
+  transition: 0.3s;
 }
 .active .skeletonContainer {
-    right: 440px;
+  right: 420px;
 }
 
 .skeletonBox {
@@ -58,10 +58,9 @@
 }
 
 @media only screen and (max-width: 1100px) {
-    .skeletonContainer { top: 80px; left: 80px; right: 20px; bottom: 20px; }
-    .active .skeletonContainer {right: 20px;}
+  .active .skeletonContainer {right: 20px;}
 }
 @media only screen and (max-width: 768px) {
-    .skeletonContainer {left: 20px;}
+  .skeletonContainer {left: 20px;}
 }
 </style>
