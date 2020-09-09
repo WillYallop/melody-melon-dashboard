@@ -68,7 +68,6 @@ export default {
                 this.notStarted = true
             }
         },
-
         returnDate(date) {
             var today = new Date(date);
             var dd = today.getDate();

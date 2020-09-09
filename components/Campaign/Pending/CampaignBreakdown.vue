@@ -1,7 +1,7 @@
 <template>
     <div class="campaignBreakdownCon">
         <div class="col">
-            <p><span class="highlightedP">{{tracks.length}}</span> Total Songs</p>
+            <p><span class="highlightedP">{{tracks.length}}</span> Total Tracks</p>
         </div>
         <div class="col">
             <p><span class="highlightedP">{{totalPlaylistPlacements}}</span> Total Placements</p>

@@ -1,8 +1,13 @@
 <template>
     <div class="pageContainer">
-        <div class="horizontalPadding verticalPadding">
-            
-            <div v-if="pageLoaded">
+        
+        <div v-if="pageLoaded">
+            <!-- Page Header -->
+            <campaignHeader
+            :title="'Create Your Campaign'"
+            :tracks="tracks"/>
+            <!-- Campaign Body -->
+            <div class="horizontalPadding verticalPadding">
                 <!-- Track Header -->
                 <div class="sectionHeader">
                     <h2 class="sectionHeaderP">CAMPAIGN TRACKS</h2>
@@ -112,12 +117,12 @@
                     </div>
                 </div>
             </div>
-
-            <div v-else>
-                <skeleton/>
-            </div>
-
         </div>
+
+        <div v-else>
+            <skeleton/>
+        </div>
+
     </div>
 </template>
 
@@ -129,6 +134,7 @@ import axios from 'axios'
 // Skeleton
 import skeleton from '@/components/Global/Skeleton'
 // Track Components
+import campaignHeader from '@/components/Campaign/Pending/CampaignHeader'
 import addTrackUrl from '@/components/Campaign/Pending/AddTrackUrl'
 import spotifyData from '@/components/Campaign/Pending/SpotifyData'
 import targetGenres from '@/components/Campaign/Pending/TargetGenres'
@@ -150,6 +156,7 @@ export default {
         }
     },
     components: {
+        campaignHeader,
         skeleton,
         addTrackUrl,
         spotifyData,

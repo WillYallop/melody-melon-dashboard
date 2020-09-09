@@ -66,7 +66,7 @@ export default {
 /* toggle btn */
 .mobileSearchToggleBtn {
     position: absolute;
-    right: 115px;
+    right: 120px;
     top: 10px;
     height: 40px;
     width: 40px;
