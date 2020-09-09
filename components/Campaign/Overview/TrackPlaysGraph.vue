@@ -1,15 +1,19 @@
 <template>
     <div class="trackPlaysGraphCon">
         <div class="graphContainer">
-            
+            <no-ssr>
+                <apexChart class="apexChart" type="area" height="250" :options="chartOptions" :series="series"/>
+            </no-ssr>
         </div>
         <div class="addDataContainer">
             <div class="addDataInner">
-                <label for="currentPlays">Current Plays</label>
-                <input id="currentPlays" type="text" class="inputStyle">
-                <label for="currentDate">Current Date</label>
-                <input id="currentDate" type="text" class="inputStyle">
-                <button>Add</button>
+                <div class="inputCon">
+                    <label >Current Plays</label>
+                    <input type="number" class="inputStyle" v-model="plays">
+
+                    <p>Record your tracks current plays.</p>
+                </div>
+                <button v-on:click="addTrackPlays" class="addPlaysBtn">Add</button>
             </div>
         </div>
     </div>
@@ -19,8 +23,188 @@
 export default {
     data() {
         return {
-            
+            // Chart Data
+            categoryData: [],
+            seriesData: [],
+
+            // Add data
+            plays: null,
         }
+    },
+    props: {
+        trackPlays: Array
+
+    },
+    mounted() {
+        if(this.trackPlays) {
+            this.categoryData = this.trackPlays[0]
+            this.seriesData = this.trackPlays[1]
+        }
+    },
+    computed: {
+        chartOptions() {
+            var obj = {
+                chart: {
+                    toolbar: {
+                        show: false,
+                        offsetX: -15,
+                        tools: {
+                            download: true,
+                            selection: true,
+                            zoom: false,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: false,
+                            reset: true, 
+                            customIcons: []
+                        },
+                    },
+                    type: 'area',
+                    height: 300,
+                    background: '#F8F8F8'
+                },
+                colors:['#E72B51'],
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    curve: 'smooth',
+            
+                },
+                xaxis: {
+                    categories: this.categoryData,
+                    labels: {
+                        show: false,
+                    },
+                    tooltip: {  
+                        enabled: false
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                },
+                yaxis: {
+                    opposite: false,
+                    labels: {
+                        show: false,
+                        style: {
+                            colors: ['#FFF','#FFF','#FFF','#FFF','#FFF','#FFF','#FFF','#FFF','#FFF','#FFF'],
+                            fontSize: '12px',
+                            fontFamily: 'lato, Arial, sans-serif',
+                            fontWeight: 400,
+                            cssClass: 'apexcharts-yaxis-label',
+                        },
+                        offsetX: 10,
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                },
+                legend: {
+                    horizontalAlign: 'left'
+                },
+                markers: {
+                    size: 5,
+                    colors: ["#fff"],
+                    strokeColors: "#E72B51",
+                    strokeWidth: 3,
+                    hover: {
+                        size: 8,
+                    }
+                },
+                grid: {
+                    show: true,
+                    borderColor: '#E9E9E9',
+                    strokeDashArray: 0,
+                    position: 'back',
+                    xaxis: {
+                        lines: {
+                            show: true,
+                        }
+                    },   
+                    yaxis: {
+                        lines: {
+                            show: true,
+                        }
+                    },  
+                    row: {
+                        colors: undefined,
+                        opacity: 0.03
+                    },  
+                    column: {
+                        colors: undefined,
+                        opacity: 0.5
+                    },  
+                    padding: {
+                        top: 0,
+                        right: 20,
+                        bottom: 0,
+                        left: 10
+                    },  
+                },
+                fill: {
+                    type: 'gradient',
+                    colors: '#E72B51',
+                    gradient: {
+                        shade: 'light',
+                        type: "vertical",
+                        shadeIntensity: 1,
+                        gradientToColors: ['#E72B51', '#E72B51'], // optional, if not defined - uses the shades of same color in series
+                        opacityFrom: 0.6,
+                        opacityTo: 0.4,
+                    
+                        colorStops: []
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    fillSeriesColor: false
+                }
+            }
+            return obj
+        },
+        series() {
+            var array = [{
+                name: 'Track Plays',
+                data: this.seriesData
+            }]
+            return array
+        }
+
+    },
+    methods: {
+        addTrackPlays() {
+            // Post new value to api
+
+            // Add data to graph if successfull
+            this.categoryData.push(this.returnDate(new Date()))
+            this.seriesData.push(this.plays)
+        },
+        returnDate(date) {
+            var today = new Date(date);
+            var dd = today.getDate();
+
+            var mm = today.getMonth()+1; 
+            var yyyy = today.getFullYear();
+            if(dd<10) 
+            {
+                dd='0'+dd;
+            } 
+
+            if(mm<10) 
+            {
+                mm='0'+mm;
+            } 
+
+            if(this.$auth.user.country === 'United Kingdom') {
+                return dd+'/'+mm+'/'+yyyy;
+            } else {
+                return mm+'/'+dd+'/'+yyyy;
+            }
+        },
+    },
+    watch: {
+
     }
 }
 </script>
@@ -28,19 +212,56 @@ export default {
 <style scoped>
 .trackPlaysGraphCon {
     display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    overflow: hidden;
 }
 .graphContainer {
-    width: calc(100% - 350px)
+    width: calc(100% - 350px);
+    overflow: hidden;
+    background-color: #F8F8F8;
 }
 .addDataContainer {
     width: 350px;
 }
 .addDataInner {
+    height: 100%;
     padding: 20px;
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-wrap: wrap;
+    background-color: #F3F3F3;
+}
+.addDataInner label {
+    color: #7F7F7F;
+    margin-bottom: 5px;
 }
 .inputStyle {
     width: 100%;
+    height: 40px;
+    background-color: #FDFDFD;
+    border: 1px solid #EEEEEE;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+}
+.addPlaysBtn {
+    background-color: #3DA389;
+    padding: 10px 40px;
+    border-radius: 20px;
+    border: none;
+    color: #FFF;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+.addPlaysBtn:hover {
+    background-color: #358D77;
+}
+
+@media only screen and (max-width: 850px) {
+    .graphContainer {width: 100%;}
+    .addDataContainer {width: 100%;}
 }
 </style>

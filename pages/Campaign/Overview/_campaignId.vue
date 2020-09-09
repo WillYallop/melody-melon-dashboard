@@ -78,7 +78,8 @@
                         <div class="trackRow">
                             <h4 class="rowSecTitleP">Track Plays</h4>
                             <p class="rowSecBodyP">An overview on <b>{{track.trackData.trackName}}</b>('s) performance.</p>
-                            <trackPlaysGraph/>
+                            <trackPlaysGraph
+                            :trackPlays="track.trackPlays"/>
                         </div>
                         <!-- Track Playlist Breakdown -->
                         <div class="trackRow">
@@ -213,17 +214,7 @@ export default {
                 mm='0'+mm;
             } 
 
-            var country = ''
-
-            axios.get("https://ipinfo.io")
-            .then((response) => {
-                country = response.data.country
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
-            if(country === 'GB') {
+            if(this.$auth.user.country === 'United Kingdom') {
                 return dd+'/'+mm+'/'+yyyy;
             } else {
                 return mm+'/'+dd+'/'+yyyy;

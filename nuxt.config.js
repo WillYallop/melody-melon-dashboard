@@ -26,7 +26,8 @@ export default {
   ],
   plugins: [
     {src: "~plugins/persistedstate.js", ssr: false},
-
+    {src: '~/plugins/vue-apexcharts.js', ssr: false},
+    
   ],
   components: true,
   buildModules: [
