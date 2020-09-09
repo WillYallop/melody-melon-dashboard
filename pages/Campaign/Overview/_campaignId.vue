@@ -13,7 +13,7 @@
             <div class="horizontalPadding verticalPadding">
 
                 <!-- Info Section -->
-                <div class="sectionContainer" v-if="pageFilter === 'info'">
+                <div class="sectionContainer" v-show="pageFilter === 'info'">
                     <!-- Info Header -->
                     <div class="sectionHeader">
                         <h2 class="sectionHeaderP">CAMPAIGN INFO</h2>
@@ -61,7 +61,7 @@
                 </div>
                 
                 <!-- Track Section -->
-                <div class="sectionContainer" v-if="pageFilter === 'tracks'">
+                <div class="sectionContainer" v-show="pageFilter === 'tracks'">
                     <!-- Track Header -->
                     <div class="sectionHeader">
                         <h2 class="sectionHeaderP">CAMPAIGN TRACKS</h2>
@@ -79,7 +79,7 @@
                             <h4 class="rowSecTitleP">Track Plays</h4>
                             <p class="rowSecBodyP">An overview on <b>{{track.trackData.trackName}}</b>('s) performance.</p>
                             <trackPlaysGraph
-                            :trackPlays="track.trackPlays"/>
+                            :trackId="track.spotifyTrackId"/>
                         </div>
                         <!-- Track Playlist Breakdown -->
                         <div class="trackRow">

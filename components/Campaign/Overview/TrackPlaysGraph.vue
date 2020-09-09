@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
         return {
@@ -32,14 +34,12 @@ export default {
         }
     },
     props: {
-        trackPlays: Array
+        trackPlays: Array,
+        trackId: String
 
     },
     mounted() {
-        if(this.trackPlays) {
-            this.categoryData = this.trackPlays[0]
-            this.seriesData = this.trackPlays[1]
-        }
+        this.loadTrackData()
     },
     computed: {
         chartOptions() {
@@ -60,7 +60,7 @@ export default {
                         },
                     },
                     type: 'area',
-                    height: 300,
+                    height: 250,
                     background: '#F8F8F8'
                 },
                 colors:['#E72B51'],
@@ -173,9 +173,43 @@ export default {
 
     },
     methods: {
+        loadTrackData() {
+            // Post new value to api
+            let config = {
+                headers: {
+                    Authorization: this.$auth.getToken('local')
+                }
+            }
+            axios.get(process.env.API_URL + '/campaigns/track/plays/' + this.trackId, config)
+            .then((response) => {
+                if(response.data.tracked_dates && response.data.tracked_plays) {
+                    this.categoryData = response.data.tracked_dates
+                    this.seriesData = response.data.tracked_plays
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        },
         addTrackPlays() {
             // Post new value to api
+            let config = {
+                headers: {
+                    Authorization: this.$auth.getToken('local')
+                }
+            }
+            axios.patch(process.env.API_URL + '/campaigns/track/plays', {
+                trackId: this.trackId,
+                trackDate: this.returnDate(new Date()),
+                trackPlays: this.plays
 
+            }, config)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
             // Add data to graph if successfull
             this.categoryData.push(this.returnDate(new Date()))
             this.seriesData.push(this.plays)
