@@ -7,8 +7,6 @@
             :title="'Campaign Overview ' + '(' + '#' + campaignData.campaign_id + ')'"
             :tracks="campaignData.campaign_tracks.length"
             :status="campaignData.campaign_status"
-            :campaignStarts="returnDate(campaignData.start_date)"
-            :campaignEnds="returnDate(campaignData.end_date)"
             :pageFilter="pageFilter"
             @filter-updated="filterUpdated"/>
             <!-- Campaign Body -->
@@ -21,8 +19,45 @@
                         <h2 class="sectionHeaderP">CAMPAIGN INFO</h2>
                         <div class="line"></div>
                     </div>
-
-                    {{campaignData}}
+                    <!-- Campaign Data -->
+                    <div class="sectionRow sectionContentStyle">
+                        <p class="campaignOverP">Campaign ID: <span>{{campaignData.campaign_id}}</span></p>
+                        <p class="campaignOverP">Status: <span>{{campaignData.campaign_status}}</span></p>
+                        <p class="campaignOverP">Start Date: <span>{{returnDate(campaignData.start_date)}}</span></p>
+                        <p class="campaignOverP">End Date: <span>{{returnDate(campaignData.end_date)}}</span></p>
+                        <p class="campaignOverP">Total Tracks: <span>{{campaignData.campaign_tracks.length}}</span></p>
+                    </div>
+                    <!-- Campaign Playlist Reach -->
+                    <div class="sectionCol sectionContentStyle">
+                        <h4 class="rowSecTitleP">Playlist Reach</h4>
+                        <p class="rowSecBodyP">Your total combined track playlist reach.</p>
+                        <playlistReach
+                        :tracks="campaignData.campaign_tracks"/>
+                    </div>
+                    <!-- Campaign Cost -->
+                    <div class="sectionCol sectionContentStyle">
+                        <h4 class="rowSecTitleP">Campaign Cost</h4>
+                        <p class="rowSecBodyP">The cost of your {{campaignData.campaign_duration}} week campaign.</p>
+                        <p class="campaignCostP">£{{campaignData.generated_price / 100}}</p>
+                    </div>
+                    <!-- Campaign Playlist Breakdown -->
+                    <div class="sectionRow sectionContentStyle lastRowS1">
+                        <h4 class="rowSecTitleP">Playlist Breakdown</h4>
+                        <p class="rowSecBodyP">All the unique playlists your tracks are featured in.</p>
+                        <playlistBreakdown
+                        :playlists="combinedPlaylists"/>
+                    </div>
+                    <!-- Info Header -->
+                    <div class="sectionHeader" style="margin-top: 40px;">
+                        <h2 class="sectionHeaderP">OPTIONS</h2>
+                        <div class="line"></div>
+                    </div>
+                    <!-- Campaign Terminate -->
+                    <div class="sectionRow sectionContentStyle">
+                        <h4 class="rowSecTitleP">Terminate Campaign</h4>
+                        <p class="rowSecBodyP">Once you terminate your campaign you will automatically be removed from all of our playlists as soon as possible and a partial refund will be issued.</p>
+                        <button class="terminateCampaignBtn">Cancel Campaign</button>
+                    </div>
                 </div>
                 
                 <!-- Track Section -->
@@ -32,8 +67,33 @@
                         <h2 class="sectionHeaderP">CAMPAIGN TRACKS</h2>
                         <div class="line"></div>
                     </div>
+                    <!-- Tracks -->
+                    <div class="sectionRow sectionContentStyle" :key="track.campaignTrackNum" v-for="track in campaignData.campaign_tracks">
+                        <!-- Track Spotify Data -->
+                        <div class="trackRow">
+                            <spotifyData
+                            :trackData="track.trackData"/>
+                        </div>
+                        <!-- Track Plays Graph -->
+                        <div class="trackRow">
+                            <h4 class="rowSecTitleP">Track Plays</h4>
+                            <p class="rowSecBodyP">An overview on <b>{{track.trackData.trackName}}</b>('s) performance.</p>
+                            <trackPlaysGraph/>
+                        </div>
+                        <!-- Track Playlist Breakdown -->
+                        <div class="trackRow">
+                            <h4 class="rowSecTitleP">Playlist Breakdown</h4>
+                            <p class="rowSecBodyP">A breakdown of the targeted genres and playlist placements.</p>
+                            <playlistBreakdown
+                            :playlists="track.playlistsSelectedAfterSlider"/>
+                        </div>
+                        <!-- Track Plays Graph -->
+                        <div class="trackRow">
+                            <h4 class="rowSecTitleP">Track Reach</h4>
+                            <p class="rowSecBodyP">Total playlist reach.</p>
 
-                    {{campaignData}}
+                        </div>
+                    </div>
                 </div>
             
             </div>
@@ -63,6 +123,10 @@ import axios from 'axios'
 import skeleton from '@/components/Global/Skeleton'
 // Campaign Components
 import overviewHeader from '@/components/Campaign/Overview/OverviewHeader'
+import playlistReach from '@/components/Campaign/Overview/PlaylistReach'
+import playlistBreakdown from '@/components/Campaign/Overview/PlaylistBreakdown'
+import spotifyData from '@/components/Campaign/Pending/SpotifyData'
+import trackPlaysGraph from '@/components/Campaign/Overview/TrackPlaysGraph'
 
 export default {
     middleware: 'auth-logged-in',
@@ -71,12 +135,18 @@ export default {
             pageLoaded: false,
             pageFilter: 'info',
             campaignData: [],
-            notStarted: false,
+            notStarted: false
+
+
         }
     },
     components: {
         skeleton,
-        overviewHeader
+        overviewHeader,
+        playlistReach,
+        playlistBreakdown,
+        spotifyData,
+        trackPlaysGraph
 
     },
     mounted() {
@@ -84,7 +154,17 @@ export default {
         
     },
     computed: {
-
+        combinedPlaylists() {
+            var array = []
+            // Iterate over tracks
+            for(var i = 0; i < this.campaignData.campaign_tracks.length; i++) {
+                // Iterate over selected playlist
+                for(var l = 0; l < this.campaignData.campaign_tracks[i].playlistsSelectedAfterSlider.length; l++) {
+                    array.push(this.campaignData.campaign_tracks[i].playlistsSelectedAfterSlider[l])
+                }   
+            }
+            return array.filter((v,i,a)=>a.findIndex(t=>(t._id === v._id))===i)
+        }
     },
     methods: {
         // mounted
@@ -186,9 +266,80 @@ export default {
 .sectionContainer {
     width: 100%;
     margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .sectionContainer:last-child {
     margin-bottom: 0;
+}
+.sectionContentStyle {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #DADADA;
+    background-color: #FFF;
+    margin-bottom: 5px;
+}
+.sectionContentStyle:last-child {
+    margin-bottom: 0;
+}
+.lastRowS1 {
+    margin-bottom: 0;
+}
+.sectionRow {
+    width: 100%;
+}
+.sectionCol {
+    width: calc(50% - 2.5px);
+}
+
+.campaignOverP {
+    font-weight: bold;
+}
+.campaignOverP span {
+    font-weight: normal;
+    margin-left: 5px;
+    color: #686868;
+}
+.campaignCostP {
+    color: #E72B51;
+    font-size: 20px;
+}
+
+.rowSecTitleP {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2px;
+} 
+.rowSecBodyP {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.terminateCampaignBtn {
+    padding: 10px 40px;
+    background-color: #E72B51;
+    color: #FFF;
+    border-radius: 20px;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.terminateCampaignBtn:hover {
+    background-color: #D52448;
+}
+
+/* Track section */
+.trackRow {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #EFEFEF;
+}
+.trackRow:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
 }
 
 /* Not started overlay */
@@ -232,5 +383,8 @@ export default {
 }
 @media only screen and (max-width: 768px) {
     .notStartedOverlay {left: 0;}
+}
+@media only screen and (max-width: 600px) {
+    .sectionCol {width: 100%;}
 }
 </style>

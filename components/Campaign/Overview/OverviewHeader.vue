@@ -12,12 +12,6 @@
             <div class="dataCon">
                 <p><span class="infoTitle">TRACKS:</span> {{tracks}}</p>
             </div>
-            <div class="dataCon">
-                <p><span class="infoTitle">Start:</span> {{campaignStarts}}</p>
-            </div>
-            <div class="dataCon">
-                <p><span class="infoTitle">End:</span> {{campaignEnds}}</p>
-            </div>
         </div>
         <!-- Navigation Area Row -->
         <div class="navigationRow horizontalPadding">
@@ -36,10 +30,8 @@ export default {
     },
     props: {
         title: String,
-        tracks: Array,
+        tracks: Number,
         status: String,
-        campaignStarts: String,
-        campaignEnds: String,
         pageFilter: String
     },
     watch: {
