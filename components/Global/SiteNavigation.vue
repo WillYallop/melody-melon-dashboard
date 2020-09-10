@@ -4,9 +4,18 @@
             <fa class="fas" :icon="['fas', 'moon']" />
         </div>
         <nav class="navBtnContainer">
-            <nuxt-link to="/" class="navBtn"><fa class="fas" :icon="['fas', 'ad']" /></nuxt-link>
-            <nuxt-link to="/invoices" class="navBtn"><fa class="fas" :icon="['fas', 'file-invoice-dollar']" /></nuxt-link>
-            <nuxt-link to="/settings" class="navBtn"><fa class="fas" :icon="['fas', 'cog']" /></nuxt-link>
+            <div class="navBtnWrapper">
+                <nuxt-link to="/" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'ad']"/><p class="mobileText">Campaigns</p></nuxt-link>
+            </div>
+            <div class="navBtnWrapper">
+                <nuxt-link to="/campaign/create" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'plus']"/><p class="mobileText">New Campaign</p></nuxt-link>
+            </div>
+            <div class="navBtnWrapper">
+                <nuxt-link to="/invoices" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'file-invoice-dollar']"/><p class="mobileText">Invoices</p></nuxt-link>
+            </div>
+            <div class="navBtnWrapper">
+                <nuxt-link to="/settings" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'cog']"/><p class="mobileText">Settings</p></nuxt-link>
+            </div>
         </nav>
     </div>
 </template>
@@ -60,6 +69,12 @@ export default {
     flex-direction: column;
     align-items: center;
 }
+.navBtnWrapper {
+    margin-top: 10px;
+}
+.navBtnWrapper:first-child {
+    margin-top: 0;
+}
 .navBtn {
     height: 40px;
     width: 40px;
@@ -69,6 +84,7 @@ export default {
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    text-decoration: none;
 }
 .navBtn:last-child {
     margin-bottom: 0;
@@ -91,9 +107,40 @@ export default {
     color: #FFF;
 }
 
+.mobileText {
+    display: none;
+    margin-left: 20px;
+    color: #929292;
+}
+.navBtn:hover .mobileText {
+    color: #FFF;
+}
+.nuxt-link-exact-active .mobileText {
+    color: #FFF;
+}
+.nuxt-link-exact-active:hover .mobileText {
+    color: #FFF;
+}
+
 @media only screen and (max-width: 768px) {
     .navigationContainer {width: 300px; left: -300px; top: 60px;}
     .navigationContainer.active {left: 0;}
     .topSquare {display: none;}
+
+    .navBtnWrapper {
+        width: 100%;
+        padding: 0 20px;
+    }
+    .navBtn {
+        width: 100%;
+        border-radius: 10px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 20px;
+    }
+    .mobileText {
+        display: flex;
+    }
 }
 </style>

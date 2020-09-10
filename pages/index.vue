@@ -3,13 +3,15 @@
 
     <!-- Header -->
     <dashboardHeader
+    :campaignLength="campaignLength"
     :filter="filter"
     @filter-updated="filterUpdated"/>
     <!-- Body Content -->
     <div class="horizontalPadding verticalPadding">
       <!-- Campaign Lists -->
       <campaignList
-      :filter="filter"/>
+      :filter="filter"
+      @campaign-array-length="campaignArrayLength"/>
     </div>
 
   </div>
@@ -25,7 +27,7 @@ export default {
   data() {
     return {
       filter: 'all',
-
+      campaignLength: 0
     }
   },
   components: {
@@ -36,6 +38,9 @@ export default {
   methods: {
     filterUpdated(value) {
       this.filter = value
+    },
+    campaignArrayLength(value) {
+      this.campaignLength = value
     }
   }
 }

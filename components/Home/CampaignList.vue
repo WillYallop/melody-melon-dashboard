@@ -129,6 +129,7 @@ export default {
             .then((results) => {
                 this.campaignsArray = results.data
                 this.loaded = true
+                this.$emit('campaign-array-length', this.campaignsArray.length)
             })
             .catch((err) => {
                 console.log(err)

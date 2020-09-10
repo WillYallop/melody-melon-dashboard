@@ -82,9 +82,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.headerBtn:first-child {
-    margin-right: 10px;
-}
+
 .headerBtn:hover .fas {
     color: #E72B51;
 }

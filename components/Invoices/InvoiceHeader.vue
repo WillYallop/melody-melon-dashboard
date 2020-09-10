@@ -2,7 +2,7 @@
     <div class="pageHeaderCon">
         <!-- Title Area Row -->
         <div class="titleRow horizontalPadding">
-            <h1 class="headerP">Campaigns</h1>
+            <h1 class="headerP">Campaign Inovices</h1>
             <button class="addCampaignBtn" v-on:click="$router.push('/campaign/create')">New Campaign<span class="buttonIcon"><fa class="fas" :icon="['fas', 'plus']" /></span></button>
             <button class="addCampaignBtnMobile" v-on:click="$router.push('/campaign/create')"><fa class="fas" :icon="['fas', 'plus']" /></button>
         </div>
@@ -15,16 +15,8 @@
                 <p><span class="infoTitle">ROLE:</span> {{$auth.user.role}}</p>
             </div>
             <div class="dataCon">
-                <p><span class="infoTitle">CAMPAIGNS:</span> {{campaignLength}}</p>
+                <p><span class="infoTitle">INVOICES:</span> {{invoiceArrayLength}}</p>
             </div>
-        </div>
-        <!-- Navigation Area Row -->
-        <div class="navigationRow horizontalPadding">
-            <a class="navBtn" v-on:click="filterOpt = 'all'" :class="{ 'activeNavBtn' : filterOpt === 'all' }">All</a>
-            <a class="navBtn" v-on:click="filterOpt = 'pending'" :class="{ 'activeNavBtn' : filterOpt === 'pending' }">Pending</a>
-            <a class="navBtn" v-on:click="filterOpt = 'active'" :class="{ 'activeNavBtn' : filterOpt === 'active' }">Active</a>
-            <a class="navBtn" v-on:click="filterOpt = 'complete'" :class="{ 'activeNavBtn' : filterOpt === 'complete' }">Complete</a>
-            <a class="navBtn" v-on:click="filterOpt = 'cancelled'" :class="{ 'activeNavBtn' : filterOpt === 'cancelled' }">Cancelled</a>
         </div>
     </div>
 </template>
@@ -33,21 +25,15 @@
 export default {
     data() {
         return {
-            filterOpt: 'all'
+
         }
     },
     props: {
-        campaignLength: Number,
-        filter: String
+        invoiceArrayLength: Number
 
     },
     watch: {
-        filter() {
-            this.filterOpt = this.filter
-        },
-        filterOpt() {
-            this.$emit('filter-updated', this.filterOpt)
-        }
+
     }
 }
 </script>
