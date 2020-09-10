@@ -85,6 +85,8 @@
                         <div class="trackRow">
                             <h4 class="rowSecTitleP">Playlist Breakdown</h4>
                             <p class="rowSecBodyP">A breakdown of the targeted genres and playlist placements.</p>
+                            <genreBreakdown
+                            :genres="track.selectedGenres"/>
                             <playlistBreakdown
                             :playlists="track.playlistsSelectedAfterSlider"/>
                         </div>
@@ -92,7 +94,8 @@
                         <div class="trackRow">
                             <h4 class="rowSecTitleP">Track Reach</h4>
                             <p class="rowSecBodyP">Total playlist reach.</p>
-
+                            <playlistIndividualReach
+                            :playlists="track.playlistsSelectedAfterSlider"/>
                         </div>
                     </div>
                 </div>
@@ -128,6 +131,8 @@ import playlistReach from '@/components/Campaign/Overview/PlaylistReach'
 import playlistBreakdown from '@/components/Campaign/Overview/PlaylistBreakdown'
 import spotifyData from '@/components/Campaign/Pending/SpotifyData'
 import trackPlaysGraph from '@/components/Campaign/Overview/TrackPlaysGraph'
+import playlistIndividualReach from '@/components/Campaign/Overview/PlaylistIndividualReach'
+import genreBreakdown from '@/components/Campaign/Overview/GenreBreakdown'
 
 export default {
     middleware: 'auth-logged-in',
@@ -147,7 +152,9 @@ export default {
         playlistReach,
         playlistBreakdown,
         spotifyData,
-        trackPlaysGraph
+        trackPlaysGraph,
+        playlistIndividualReach,
+        genreBreakdown
 
     },
     mounted() {

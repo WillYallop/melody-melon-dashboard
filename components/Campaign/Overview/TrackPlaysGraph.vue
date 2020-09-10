@@ -12,6 +12,7 @@
                     <input type="number" class="inputStyle" v-model="plays">
 
                     <p>Record your tracks current plays.</p>
+                    <p class="errorMsgP" v-if="errorMsg">{{errorMsg}}</p>
                 </div>
                 <button v-on:click="addTrackPlays" class="addPlaysBtn">Add</button>
             </div>
@@ -31,6 +32,7 @@ export default {
 
             // Add data
             plays: null,
+            errorMsg: false,
         }
     },
     props: {
@@ -193,26 +195,29 @@ export default {
         },
         addTrackPlays() {
             // Post new value to api
-            let config = {
-                headers: {
-                    Authorization: this.$auth.getToken('local')
+            if(!isNaN(this.plays)) {
+                let config = {
+                    headers: {
+                        Authorization: this.$auth.getToken('local')
+                    }
                 }
-            }
-            axios.patch(process.env.API_URL + '/campaigns/track/plays', {
-                trackId: this.trackId,
-                trackDate: this.returnDate(new Date()),
-                trackPlays: this.plays
+                axios.patch(process.env.API_URL + '/campaigns/track/plays', {
+                    trackId: this.trackId,
+                    trackDate: this.returnDate(new Date()),
+                    trackPlays: this.plays
 
-            }, config)
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            // Add data to graph if successfull
-            this.categoryData.push(this.returnDate(new Date()))
-            this.seriesData.push(this.plays)
+                }, config)
+                .then((response) => {
+                    // Add data to graph if successfull
+                    this.categoryData.push(this.returnDate(new Date()))
+                    this.seriesData.push(this.plays)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            } else {
+                this.errorMsg = 'Enter a valid number.'
+            }
         },
         returnDate(date) {
             var today = new Date(date);
@@ -280,6 +285,17 @@ export default {
     margin-bottom: 10px;
     padding: 0 10px;
 }
+/* Chrome, Safari, Edge, Opera */
+.inputStyle::-webkit-outer-spin-button,
+.inputStyle::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.inputStyle[type=number] {
+  -moz-appearance: textfield;
+}
 .addPlaysBtn {
     background-color: #3DA389;
     padding: 10px 40px;
@@ -292,6 +308,10 @@ export default {
 }
 .addPlaysBtn:hover {
     background-color: #358D77;
+}
+.errorMsgP {
+    color: #E72B51;
+    margin-top: 10px;
 }
 
 @media only screen and (max-width: 850px) {

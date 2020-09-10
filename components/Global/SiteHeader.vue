@@ -63,6 +63,7 @@ export default {
 }
 .siteLogo {
     height: 40px;
+    cursor: pointer;
 }
 
 

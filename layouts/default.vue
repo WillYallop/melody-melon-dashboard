@@ -4,9 +4,9 @@
     <siteHeader/>
     <siteNavigation/>
 
-    <Nuxt :class="{ 'active' : trackNavStatus }"/>
+    <Nuxt/>
 
-    <div class="pageOverlay"></div>
+    <div class="pageOverlay" :class="{ 'active' : navStatus }" v-on:click="$store.commit('specificNavigationStatus', false)"></div>
   </div>
 </template>
 
@@ -15,18 +15,20 @@
 import siteHeader from '@/components/Global/SiteHeader'
 import siteNavigation from '@/components/Global/SiteNavigation'
 
+
 export default {
   data() {
     return {
-      trackNavigation: true
+  
     }
   },
   components: {
     siteHeader,
-    siteNavigation
+    siteNavigation,
 
   },
   computed: {
+
     navStatus() {
       return this.$store.state.navigation.status
     }
@@ -89,6 +91,7 @@ img{text-indent:-9999px}
   opacity: 0;
   transition: 0.2s;
   pointer-events: none;
+  cursor: pointer;
 }
 .pageOverlay.active {
   opacity: 1;
