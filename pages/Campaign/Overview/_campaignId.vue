@@ -256,13 +256,9 @@ export default {
 /* Section */
 .sectionContainer {
     width: 100%;
-    margin-bottom: 40px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-}
-.sectionContainer:last-child {
-    margin-bottom: 0;
 }
 .sectionContentStyle {
     padding: 20px;

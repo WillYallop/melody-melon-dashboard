@@ -3,11 +3,10 @@
     <!-- Logged in headers and nav -->
     <siteHeader/>
     <siteNavigation/>
-    <siteTrackNavigation />
 
     <Nuxt :class="{ 'active' : trackNavStatus }"/>
 
-    <div class="pageOverlay" :class="{ 'active' : navStatus || !trackNavStatus }" v-on:click="$store.commit('specificTrackNavigationStatus', true); $store.commit('specificNavigationStatus', false)"></div>
+    <div class="pageOverlay"></div>
   </div>
 </template>
 
@@ -15,7 +14,6 @@
 // Components
 import siteHeader from '@/components/Global/SiteHeader'
 import siteNavigation from '@/components/Global/SiteNavigation'
-import siteTrackNavigation from '@/components/Global/SiteTrackNavigation'
 
 export default {
   data() {
@@ -25,13 +23,10 @@ export default {
   },
   components: {
     siteHeader,
-    siteNavigation,
-    siteTrackNavigation
+    siteNavigation
+
   },
   computed: {
-    trackNavStatus() {
-      return this.$store.state.trackNavigation.status
-    },
     navStatus() {
       return this.$store.state.navigation.status
     }

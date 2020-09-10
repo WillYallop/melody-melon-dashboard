@@ -1,23 +1,19 @@
 <template>
-    <header class="headerContainer" :class="{ 'active' : trackNavStatus }">
+    <header class="headerContainer">
         <div class="headerWrapper horizontalPadding">
             <div class="logoSearchContainer">
                 <img v-on:click="$router.push('/')" class="siteLogo" src="../../assets/images/logo(light).svg" alt="Melody Melon Logo">
-                <trackSearch/>
+                
             </div>
 
             <div class="buttonContainer">
-                <button class="headerBtn toggleNavBtn" v-on:click="$store.commit('toggleNavigation'); $store.commit('specificTrackNavigationStatus', true)"><fa class="fas" :icon="['fas', 'bars']" /></button>
-                <button class="headerBtn toggleTrackNavBtn" v-on:click="$store.commit('toggleTrackNavigation'); $store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'music']" /></button>
+                <button class="headerBtn toggleNavBtn" v-on:click="$store.commit('toggleNavigation')"><fa class="fas" :icon="['fas', 'bars']" /></button>
             </div>
         </div>
     </header>
 </template>
 
 <script>
-// Components
-import trackSearch from '@/components/Global/HeaderTrackSearch'
-
 export default {
     data() {
         return {
@@ -25,12 +21,10 @@ export default {
         }
     },
     components: {
-        trackSearch
+       
     },
     computed: {
-        trackNavStatus() {
-            return this.$store.state.trackNavigation.status
-        }
+
     },
     methods: {
         toggleTrackNav() {

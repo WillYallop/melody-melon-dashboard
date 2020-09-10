@@ -2,7 +2,7 @@
     <div class="playlistContainer">
         <div class="playlistCol" :key="playlist._id" v-for="playlist in playlists">
             <div class="leftCon">
-                <img class="playlistImage" src="" alt="Playlist Image">
+                <img class="playlistImage" :src="playlist.image" alt="Playlist Image">
                 <div class="playlistBody">
                     <p><b>{{playlist.name}}</b></p>
                     <p>{{playlist.followers}} Followers</p>
