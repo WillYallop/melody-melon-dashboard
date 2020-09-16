@@ -387,7 +387,7 @@ export default {
                 // Reset error
                 this.campaignError = false
                 // Check auth status
-                if(this.$auth.loggedIn) {
+                if(this.$store.state.auth.loggedIn) {
                     // If logged in send data to db then clear the store
                     // Header
                     let config = {

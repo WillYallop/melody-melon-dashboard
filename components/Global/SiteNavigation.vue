@@ -15,7 +15,7 @@
                     <nuxt-link to="/invoices" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'file-invoice-dollar']"/><p class="mobileText">Invoices</p></nuxt-link>
                 </div>
             </div>
-            <div class="navSection" v-if="$auth.loggedIn">
+            <div class="navSection" v-if="this.$store.state.auth.loggedIn">
                 <div class="navBtnWrapper logOutBtn">
                     <div class="navBtn" v-on:click="signOut(); $store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'sign-out-alt']"/><p class="mobileText">Log Out</p></div>
                 </div>
