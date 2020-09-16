@@ -9,10 +9,10 @@
         <!-- Info Area Row -->
         <div class="infoRow horizontalPadding">
             <div class="dataCon">
-                <p><span class="infoTitle">USER:</span> {{$auth.user.fName}} {{$auth.user.lName}}</p>
+                <p><span class="infoTitle">USER:</span> {{firstName}} {{lastName}}</p>
             </div>
             <div class="dataCon">
-                <p><span class="infoTitle">ROLE:</span> {{$auth.user.role}}</p>
+                <p><span class="infoTitle">ROLE:</span> {{role}}</p>
             </div>
             <div class="dataCon">
                 <p><span class="infoTitle">INVOICES:</span> {{invoiceArrayLength}}</p>
@@ -31,6 +31,17 @@ export default {
     props: {
         invoiceArrayLength: Number
 
+    },
+    computed: {
+        firstName() {
+            return this.$store.state.auth.user.firstName
+        },
+        lastName() {
+            return this.$store.state.auth.user.lastName
+        },
+        role() {
+            return this.$store.state.auth.user.role
+        }
     },
     watch: {
 

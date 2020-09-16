@@ -78,7 +78,7 @@ export default {
                 mm='0'+mm;
             } 
 
-            if(this.$auth.user.country === 'United Kingdom') {
+            if(this.$auth.user.country === 'GB') {
                 return dd+'/'+mm+'/'+yyyy;
             } else {
                 return mm+'/'+dd+'/'+yyyy;

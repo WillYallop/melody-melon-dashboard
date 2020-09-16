@@ -9,10 +9,10 @@
         <!-- Info Area Row -->
         <div class="infoRow horizontalPadding">
             <div class="dataCon">
-                <p><span class="infoTitle">USER:</span> {{$auth.user.fName}} {{$auth.user.lName}}</p>
+                <p><span class="infoTitle">USER:</span> {{firstName}} {{lastName}}</p>
             </div>
             <div class="dataCon">
-                <p><span class="infoTitle">ROLE:</span> {{$auth.user.role}}</p>
+                <p><span class="infoTitle">ROLE:</span> {{role}}</p>
             </div>
             <div class="dataCon">
                 <p><span class="infoTitle">CAMPAIGNS:</span> {{campaignLength}}</p>
@@ -41,13 +41,25 @@ export default {
         filter: String
 
     },
+    computed: {
+        firstName() {
+            return this.$store.state.auth.user.firstName
+        },
+        lastName() {
+            return this.$store.state.auth.user.lastName
+        },
+        role() {
+            return this.$store.state.auth.user.role
+        }
+    },
     watch: {
         filter() {
             this.filterOpt = this.filter
         },
         filterOpt() {
             this.$emit('filter-updated', this.filterOpt)
-        }
+        },
+
     }
 }
 </script>

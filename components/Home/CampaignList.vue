@@ -27,7 +27,7 @@
                     <div class="col col5">
                         <p v-if="campaign.campaign_status === 'pending' && !campaign.campaign_approved">Being reviewed</p>
                         <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && !campaign.campaign_paid">Approved</p>
-                        <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && campaign.campaign_paid">Paid</p>
+                        <p v-if="campaign.campaign_status === 'pending' && campaign.campaign_approved && campaign.campaign_paid">Starts Soon</p>
                         <p v-if="campaign.campaign_status === 'active'">Active</p>
                         <p v-if="campaign.campaign_status === 'complete'">Complete</p>
                         <p v-if="campaign.campaign_status === 'cancelled'">Cancelled</p>
@@ -110,7 +110,6 @@ export default {
     },
     mounted() {
         this.loadCampaigns()
-        this.getCountry()
 
     },
     methods: {
@@ -138,15 +137,6 @@ export default {
         navigateCampaign(action, id) {
             this.$router.push('/campaign/'+action+'/'+id)
         },
-        getCountry() {
-            axios.get("https://ipinfo.io")
-            .then((response) => {
-                this.country = response.data.country
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        },
         formatDate(date) {
             var today = new Date(date);
             var dd = today.getDate();
@@ -163,7 +153,7 @@ export default {
                 mm='0'+mm;
             } 
 
-            if(this.country === 'GB') {
+            if(this.$auth.user.country === 'GB') {
                 return dd+'/'+mm+'/'+yyyy;
             } else {
                 return mm+'/'+dd+'/'+yyyy;

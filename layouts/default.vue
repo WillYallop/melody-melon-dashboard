@@ -65,6 +65,7 @@ button {font-family: 'Source Sans Pro', sans-serif;}
 button:focus {outline: none;}
 input {font-family: 'Source Sans Pro', sans-serif;}
 select {font-family: 'Source Sans Pro', sans-serif;}
+select:focus {outline: none; border: none;}
 textarea {font-family: 'Source Sans Pro', sans-serif;}
 input:focus {outline: none;}
 textarea:focus {outline: none;}
@@ -118,11 +119,12 @@ img{text-indent:-9999px}
 
 @media only screen and (max-width: 1100px) {
   .pageContainer.active {padding: 60px 0 0 60px;}
-  .pageOverlay {display: flex;}
+  
 }
 @media only screen and (max-width: 768px) {
   .pageContainer {padding: 60px 0 0;}
   .pageContainer.active {padding: 60px 0 0;}
+  .pageOverlay {display: flex;}
 }
 
 </style>

@@ -47,17 +47,6 @@
                         <playlistBreakdown
                         :playlists="combinedPlaylists"/>
                     </div>
-                    <!-- Info Header -->
-                    <div class="sectionHeader" style="margin-top: 40px;">
-                        <h2 class="sectionHeaderP">OPTIONS</h2>
-                        <div class="line"></div>
-                    </div>
-                    <!-- Campaign Terminate -->
-                    <div class="sectionRow sectionContentStyle">
-                        <h4 class="rowSecTitleP">Terminate Campaign</h4>
-                        <p class="rowSecBodyP">Once you terminate your campaign you will automatically be removed from all of our playlists as soon as possible and a partial refund will be issued.</p>
-                        <button class="terminateCampaignBtn">Cancel Campaign</button>
-                    </div>
                 </div>
                 
                 <!-- Track Section -->
@@ -221,7 +210,7 @@ export default {
                 mm='0'+mm;
             } 
 
-            if(this.$auth.user.country === 'United Kingdom') {
+            if(this.$auth.user.country === 'GB') {
                 return dd+'/'+mm+'/'+yyyy;
             } else {
                 return mm+'/'+dd+'/'+yyyy;

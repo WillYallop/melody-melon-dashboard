@@ -1,20 +1,24 @@
 <template>
     <div class="navigationContainer" :class="{ 'active' : navStatus }">
         <div class="topSquare">
-            <fa class="fas" :icon="['fas', 'moon']" />
+            
         </div>
         <nav class="navBtnContainer">
-            <div class="navBtnWrapper">
-                <nuxt-link to="/" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'ad']"/><p class="mobileText">Campaigns</p></nuxt-link>
+            <div class="navSection">
+                <div class="navBtnWrapper">
+                    <nuxt-link to="/" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'ad']"/><p class="mobileText">Campaigns</p></nuxt-link>
+                </div>
+                <div class="navBtnWrapper">
+                    <nuxt-link to="/campaign/create" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'plus']"/><p class="mobileText">New Campaign</p></nuxt-link>
+                </div>
+                <div class="navBtnWrapper">
+                    <nuxt-link to="/invoices" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'file-invoice-dollar']"/><p class="mobileText">Invoices</p></nuxt-link>
+                </div>
             </div>
-            <div class="navBtnWrapper">
-                <nuxt-link to="/campaign/create" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'plus']"/><p class="mobileText">New Campaign</p></nuxt-link>
-            </div>
-            <div class="navBtnWrapper">
-                <nuxt-link to="/invoices" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'file-invoice-dollar']"/><p class="mobileText">Invoices</p></nuxt-link>
-            </div>
-            <div class="navBtnWrapper">
-                <nuxt-link to="/settings" class="navBtn" @click.native="$store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'cog']"/><p class="mobileText">Settings</p></nuxt-link>
+            <div class="navSection" v-if="$auth.loggedIn">
+                <div class="navBtnWrapper logOutBtn">
+                    <div class="navBtn" v-on:click="signOut(); $store.commit('specificNavigationStatus', false)"><fa class="fas" :icon="['fas', 'sign-out-alt']"/><p class="mobileText">Log Out</p></div>
+                </div>
             </div>
         </nav>
     </div>
@@ -33,7 +37,11 @@ export default {
         }
     },
     methods: {
-
+        signOut() {
+            this.$auth.logout().then(() => {
+                this.$router.go()
+            })
+        }
     }
 }
 </script>
@@ -57,23 +65,32 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    border-bottom: 1px solid #202020;
 }
 .topSquare .fas {
     color: #FFF;
     font-size: 18px;
 }
 .navBtnContainer {
+    height: calc(100% - 60px);
     padding: 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+}
+.navSection {
+    width: auto;
 }
 .navBtnWrapper {
     margin-top: 10px;
 }
 .navBtnWrapper:first-child {
     margin-top: 0;
+}
+.logOutBtn {
+    cursor: pointer;
+    margin-top: 10px !important;
 }
 .navBtn {
     height: 40px;
@@ -126,21 +143,10 @@ export default {
     .navigationContainer {width: 300px; left: -300px; top: 60px;}
     .navigationContainer.active {left: 0;}
     .topSquare {display: none;}
-
-    .navBtnWrapper {
-        width: 100%;
-        padding: 0 20px;
-    }
-    .navBtn {
-        width: 100%;
-        border-radius: 10px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 0 20px;
-    }
-    .mobileText {
-        display: flex;
-    }
+    .navBtnContainer {height: 100%;}
+    .navBtnWrapper {width: 100%;padding: 0 20px;}
+    .navBtn {width: 100%;border-radius: 10px;display: flex;justify-content: flex-start;align-items: center;padding: 0 20px;}
+    .mobileText {display: flex;}
+    .navSection {width: 100%;}
 }
 </style>

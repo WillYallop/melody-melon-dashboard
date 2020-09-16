@@ -195,7 +195,7 @@ export default {
         },
         addTrackPlays() {
             // Post new value to api
-            if(!isNaN(this.plays)) {
+            if(!isNaN(this.plays) && this.plays > 0) {
                 let config = {
                     headers: {
                         Authorization: this.$auth.getToken('local')
@@ -235,7 +235,7 @@ export default {
                 mm='0'+mm;
             } 
 
-            if(this.$auth.user.country === 'United Kingdom') {
+            if(this.$auth.user.country === 'GB') {
                 return dd+'/'+mm+'/'+yyyy;
             } else {
                 return mm+'/'+dd+'/'+yyyy;
