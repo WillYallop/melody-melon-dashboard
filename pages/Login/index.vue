@@ -27,10 +27,21 @@
                             <button class="signInBtn" v-on:click="signIn">Log In</button>
                         </div>
                         
-                        <a class="forgotPassP">forgot password</a>
+                        <a class="forgotPassP" v-on:click="pageType = 'reset'">forgot password</a>
                     </div>
                     <div class="legalLinksContainer">
                         <nuxt-link to="/terms-conditions">Terms & Conditions</nuxt-link>
+                    </div>
+                </div>
+
+                <div class="formContainer" v-if="pageType === 'reset'">
+                    <div class="formBody">
+                        <h1>Reset Password</h1>
+                        <p class="resetPassP">Enter your email address and we'll send you a reset link.</p>
+                        <label for="resetPassEmail">Email Address</label>
+                        <input class="inputStyle" id="resetPassEmail" type="text" v-model="credentials.email">
+                        <p class="signInError" v-if="restMsg">{{restMsg}}</p>
+                        <button class="signInBtn" v-on:click="forgotPassword">Reset</button>
                     </div>
                 </div>
 
@@ -121,7 +132,9 @@ export default {
             lNameError: false,
             roleError: false,
             emailError: false,
-            passwordError: false
+            passwordError: false,
+
+            restMsg: false
 
         }
     },
@@ -316,8 +329,51 @@ export default {
                 this.errorMessageSignUp = 'Make sure to accept the terms & conditions.'
             }
 
+        },
+        // password reset
+        forgotPassword() {
+            if(this.verifyEmail2()) { //verify email
+                //reset error msg
+                this.restMsg = ''
+                this.resetSending = true
+                this.errorMessage = false
+                //password forgot route
+                let config = {
+                    headers: {
+                        Authorization: this.$auth.getToken('local'),
+                    }
+                }
+                axios.post(process.env.API_URL + '/user/password-forgot', {
+                    email: this.credentials.email
+                }, config)
+                .then((responce) => {
+                    this.resetSending = false
+                    this.restMsg = responce.data.message
+                })
+                .catch((err) => {
+                    this.resetSending = false
+                    if(err.response.status == 429) {
+                        this.errorMessage = 'Too many requests, please try again later!'
+                    }
+                    console.log(err.response.status)
+                })
+            } else {
+                this.restMsg = 'Enter a valid email address'
+            }
+        },
+        verifyEmail2() {
+            if(this.credentials.email.length > 0) {
+                var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                if(regex.test(this.credentials.email)) {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
         }
-    },
+        },
     watch: {
         pageType() {
             if(this.pageType === 'signup') {
@@ -385,6 +441,18 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+.formBody h1 {
+    font-size: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    color: #FFF;
+    margin-bottom: 5px;
+}
+.resetPassP {
+    color: #FFF;
+    margin-bottom: 15px;
+    width: 100%;
 }
 .formBody label {
     width: 100%;
@@ -543,9 +611,6 @@ export default {
     font-size: 16px;
     margin: 0;
     margin-left: 5px;
-}
-.checkboxInputStyle {
-
 }
 
 /* Site background */
