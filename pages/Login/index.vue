@@ -52,10 +52,10 @@
                         </select>
                         <h4 class="sectionTitle">Account Details</h4>
                         <label for="signUpEmail">Email Address</label>
-                        <input class="inputStyle" id="signUpEmail" type="text" autocomplete="off" v-model="signUpDetails.email" :class="{ 'incorrectData' : verifyEmail === false, 'missingField' : emailError }">
+                        <input class="inputStyle" id="signUpEmail" type="text" autocomplete="email" v-model="signUpDetails.email" :class="{ 'incorrectData' : verifyEmail === false, 'missingField' : emailError }">
                         <label for="signUpPassword">Password</label>
                         <div class="passowrdInputContainer">
-                            <input class="inputStyle" id="signUpPassword" type="password" autocomplete="off" v-model="signUpDetails.password" :class="{ 'missingField' : passwordError  }">
+                            <input class="inputStyle" id="signUpPassword" type="password" autocomplete="new-password" v-model="signUpDetails.password" :class="{ 'missingField' : passwordError  }">
                             <div class="inputOverlay">
                                 <fa class="fas" :icon="['fas', 'unlock-alt']" :class="{ 'strongPas' : verifyPassword == 'strong', 'mediumPas' : verifyPassword == 'medium', 'weakPas' : verifyPassword == 'weak', 'noPas' : verifyPassword == false }"/>
                             </div>

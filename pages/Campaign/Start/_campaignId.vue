@@ -32,17 +32,7 @@
                                     <spotifyData
                                     :trackData="track.trackData"/>
                                 </div>
-                                <!-- Set Genres -->
-                                <div class="rowSection">
-                                    <h4 class="rowSecTitleP">Target Genres</h4>
-                                    <p class="rowSecBodyP">Select the genres you wish to target.</p>
-                                    <targetGenres
-                                    @add-genre="addGenre"
-                                    @remove-genre="removeGenre"
-                                    :trackIndex="tracks.indexOf(track)"
-                                    :playlistGenres="track.genres"
-                                    :selectedGenres="track.selectedGenres"/>
-                                </div>
+
                                 <!-- Track Placement Slider -->
                                 <div class="rowSection">
                                     <h4 class="rowSecTitleP">Track Placements</h4>
@@ -119,6 +109,10 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Payment Modal -->
+            <paymentModal v-if="showPaymentModal"
+            @close-modal="showPaymentModal = !showPaymentModal"/>
         </div>
 
         <div v-else>
@@ -145,6 +139,8 @@ import trackReach from '@/components/Campaign/Pending/TrackReach'
 // Campaign Components
 import campaignBreakdown from '@/components/Campaign/Pending/CampaignBreakdown'
 import campaignNotes from '@/components/Campaign/Pending/CampaignNotes'
+// Payment Model
+import paymentModal from '@/components/Campaign/PaymentModal'
 // Lib Comp
 import dateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
@@ -164,6 +160,8 @@ export default {
             //-data
             minDateRange: '',
             maxDateRange: '',
+
+            showPaymentModal: false
         }
     },
     components: {
@@ -176,7 +174,8 @@ export default {
         trackReach,
         campaignBreakdown,
         campaignNotes,
-        dateRangePicker
+        dateRangePicker,
+        paymentModal
 
     },
     mounted() {
@@ -251,6 +250,8 @@ export default {
                 // If campaign is not approved return
                 if(responce.data.campaign_approved) {
                     if(responce.data.campaign_status != 'pending') {
+                        this.$router.push('/')
+                    } else if(responce.data.campaign_paid) {
                         this.$router.push('/')
                     } else {
                         // set date range values
@@ -512,8 +513,9 @@ export default {
                 }, config)
                 .then((responce) => {
                     if(responce.data.message === 'success') {
-                        this.$store.commit('resetNewCampaignDataEdit')
-                        this.$router.push('/campaign/checkout/'+ this.$route.params.campaignId)
+                       // this.$store.commit('resetNewCampaignDataEdit')
+
+                        this.showPaymentModal = true
                     }
                 })
                 .catch((err) => {

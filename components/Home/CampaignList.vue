@@ -18,7 +18,8 @@
             </div>
             <!-- campaign row -->
             <div class="campaignRow" :key="campaign._id" v-for="campaign in campaignsArray">
-                <img class="campaignRowImg" :src="campaign.campaign_image" alt="Track Image">
+                <img class="campaignRowImg" v-if="campaign.campaign_image" :src="campaign.campaign_image" alt="Track Image">
+                <img class="campaignRowImg" v-else src="https://static1.squarespace.com/static/5d2e2c5ef24531000113c2a4/5d392a924397f100011fa30e/5d447ee1d4e5d500016bf451/1565199109495/" alt="Track Image">
                 <div class="dataContainer">
                     <div class="col col1"><p>{{campaign.campaign_id}}</p></div>
                     <div class="col col2"><p>{{campaign.campaign_tracks_total}}</p></div>

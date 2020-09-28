@@ -93,10 +93,12 @@
             <!-- campaign not started -->
             <div v-if="notStarted" class="notStartedOverlay">
                 <div class="infoContainer">
+                    <button v-on:click="notStarted = !notStarted" class="closeModalBtn"><fa class="fas" :icon="['fas', 'times']" /></button>
                     <p>Your promotion campaign has not started yet.</p>
                     <p>Start Date: <b>{{returnDate(campaignData.start_date)}}</b></p>
                     <button class="backBtn" v-on:click="$router.go(-1)">Back</button>
                 </div>
+                <div class="notStartedBg" v-on:click="notStarted = !notStarted"></div>
             </div>
         </div>
 
@@ -340,11 +342,37 @@ export default {
     align-items: center;
     z-index: 100;
 }
+.notStartedBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    z-index: 10;
+    cursor: pointer;
+}
 .infoContainer {
     background-color: #FFF;
     padding: 20px;
     border-radius: 10px;
     margin: 0 auto;
+    position: relative;
+    z-index: 20;
+}
+.closeModalBtn {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    height: 30px;
+    width: 30px;
+    background-color: #C0C0C0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.closeModalBtn .fas {
+    color: #FFF;
 }
 .backBtn {
     background-color: #3DA389;
